@@ -7,7 +7,7 @@ We offer health and therapeutic stays in our sanatoriums lasting from 3 days and
 ## Data requirements  
   
 * #### Sanatorium Resorts  
-    Our network has several resorts. Every one has its one almost unique atmosphere with nature features. Each sanatorium has its _address_, _phone number_ as well as _employees_ and of course our dear _vacationers_. And also _rooms_, _medical procedures_, _entertainment options_ and _equipment stuff_,  I guess :)
+    Our network has several resorts. Every one has its one almost unique atmosphere with nature features. Each sanatorium has its _address_, _phone number_ as well as _employees_ and of course our dear _vacationers_. And also _rooms_, _medical procedures_, _entertainment options_ and _equipment stuff_,  I guess :). And _events_
 
 * #### Rooms  
     Every room has its link to _sanatorium_, its _description_,  _number_, _type_ (number of people to live there) and _current status_ (free or occupied by one/several _vacationers_)
@@ -26,5 +26,8 @@ We offer health and therapeutic stays in our sanatoriums lasting from 3 days and
 
 * #### Entertainment options
     Just _title_, _description_ and _cost_ (or NULL, if free).
+
+* #### Extra events
+    Event _title_, _description_, _resort_, _cost_ and _date_. For example special guest or laser tag.
 
 ###### © 2022
