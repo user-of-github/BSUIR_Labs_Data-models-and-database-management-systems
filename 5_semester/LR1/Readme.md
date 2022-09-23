@@ -142,4 +142,24 @@ We offer health and therapeutic stays in our sanatoriums lasting from 3 days and
 | price   |INTEGER, NOT NULL|
 | date   | DATE, NOT NULL|
 
+
+
+![](./scheme.drawio.svg)  
+
+
+
+## Roles
+---
+| Right/Role | LogIned vacationer | Medical Employee | Administrator | Accountant |
+|---|:---:|:---:|:---:|:---:|
+| Accounts control | + | - | + | - |
+| Entertainment booking | + | - | - | - |
+| Equipment order | + | - | + | - |
+| Room change | - | - | + | + |
+| Procedures order | + | + | + | - |
+| Personal account edit | + | + | + | + |
+| Events tickets order | + | - | + | - |  
+
+
+
 ###### © 2022
