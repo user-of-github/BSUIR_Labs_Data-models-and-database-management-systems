@@ -48,7 +48,7 @@ We offer health and therapeutic stays in our sanatorium lasting from 3 days and 
 | procedures | | __Foreign Key references__|
 | room |  | __Foreign Key reference Room(room_id)__ |
 |visited_events | | __Foreign Key References(event_id)__|
-|used_equpments | | __Foreign Key References(equipment_id)__|
+|used_equipments | | __Foreign Key References(equipment_id)__|
 |used_entertainments | | __Foreign Key References(entertainment_id)__|
 
 
@@ -97,7 +97,7 @@ We offer health and therapeutic stays in our sanatorium lasting from 3 days and 
 |   Column         |   Description   |   Additional info      
 | ---------------- | ------------- | ------------- |
 | user_id |serial, NOT NULL |__Primary Key__|
-|email | VARCHAR(40), NOT NULL|
+|email | VARCHAR(40), NOT NULL, UNIQUE|
 |password | VARCHAR(100), NOT NULL|
 |name | VARCHAR(30), NOT NULL|
 |surname | VARCHAR(30), NOT NULL|
@@ -123,11 +123,22 @@ We offer health and therapeutic stays in our sanatorium lasting from 3 days and 
 | Administrators table full edit | - | + | + |
 | Rooms table full edit | - | + | - |
 | Vacationers table full edit | - | + | - |
-| Edit preocedures for vacationer | + | + | + |
 | Medical Procedures table full edit | + | + | - |
 | Extra events table full edit | - | + | - |
 | Entertainment options table full edit | - | + | - |
 | Equipments table full edit | - | + | - |
+| | | |
+| Edit (add/remove) preocedures for vacationer | + | + | + |
+| View list of equipment stuff | + | + | + |
+| View list of future events at Sanatorium | + | + | + |
+| View list of available entertainment options | + | + | + |
+| Add event to user's list | - | - | + |
+| Change room for someone| - | + | - |
+
+
+
+## Signing in  
+Via email and password  
 
 
 ###### © 2022, September - October
