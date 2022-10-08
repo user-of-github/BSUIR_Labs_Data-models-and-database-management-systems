@@ -4,6 +4,19 @@ A relatively quiet and cozy place that will be happy to relax people of all ages
 We offer health and therapeutic stays in our sanatorium lasting from 3 days and more_
 
 
+## Some requirements:
+#### Vacationer 
+Can explore his procedures, room and info. Also rent/order some equipments, entertainment stuff and tickets to extra events
+#### Admin
+Can change rooms and procedures info for vacationers. Add new facilities to stuff, equipments and extra events.
+#### Medical Worker
+Can change procedures for vacationers. 
+#### Logging
+#### Signing in via email and password
+#### roles system
+#### exact roles and rights are explained at the end
+
+
 ## Tables exact description  
 
 
