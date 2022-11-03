@@ -33,10 +33,10 @@ CREATE TABLE IF NOT EXISTS administrators (
 );
 
 CREATE TABLE IF NOT EXISTS vacationers (
-	id SERIAL PRIMARY KEY REFERENCES abstract_users,
+    id SERIAL PRIMARY KEY REFERENCES abstract_users,
     rests_from DATE NOT NULL,
     rests_to DATE NOT NULL,
-    room SMALLSERIAL REFERENCES rooms(room_id) ON UPDATE CASCADE ON DELETE SET NULL
+    room SMALLSERIAL REFERENCES rooms(room_id) ON UPDATE CASCADE ON DELETE SET NULL 
     CHECK (rests_from <= rests_to)
 );
 
