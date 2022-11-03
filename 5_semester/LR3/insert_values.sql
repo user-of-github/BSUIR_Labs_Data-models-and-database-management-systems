@@ -47,7 +47,8 @@ VALUES
 (7, 'email7@gmail.com', crypt('new password7', gen_salt('md5')), 'Nina', 'Petrovna'), -- admin
 (8, 'email8@gmail.com', crypt('new password8', gen_salt('md5')), 'Petrovich', 'Petrovich'), -- admin
 (9, 'email9@gmail.com', crypt('new password9', gen_salt('md5')), 'Anthony', 'Stark'), -- medical employee
-(10, 'email10@gmail.com', crypt('new password10', gen_salt('md5')), 'Peter', 'Parker') -- medical employee
+(10, 'email10@gmail.com', crypt('new password10', gen_salt('md5')), 'Peter', 'Parker'), -- medical employee
+(11, 'email11@gmail.com', crypt('new password11', gen_salt('md5')), 'Daniel', 'Smith')
 ON CONFLICT DO NOTHING;
 
 
@@ -59,7 +60,8 @@ VALUES
 (3, '2022-08-04', '2022-08-23', 2),
 (4, '2022-08-04', '2022-08-23', 2),
 (5, '2022-08-04', '2022-08-23', 3),
-(6, '2022-08-04', '2022-08-23', 3)
+(6, '2022-08-04', '2022-08-23', 3),
+(11, '2022-11-04', '2022-12-12', 4)
 ON CONFLICT DO NOTHING;
 
 
