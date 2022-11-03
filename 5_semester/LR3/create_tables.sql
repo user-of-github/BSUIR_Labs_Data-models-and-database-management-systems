@@ -1,0 +1,33 @@
+CREATE TABLE IF NOT EXISTS rooms (
+    room_id SMALLSERIAL PRIMARY KEY,
+    number SMALLSERIAL UNIQUE NOT NULL,
+    possible_people_count SMALLSERIAL NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS abstract_users (
+	user_id SERIAL PRIMARY KEY,
+    email VARCHAR(256) UNIQUE NOT NULL,
+    password VARCHAR(256) NOT NULL,
+    name VARCHAR(50) NOT NULL,
+	surname VARCHAR(50) NOT NULL	
+);
+
+CREATE TABLE IF NOT EXISTS medical_jobs (
+	medical_job_id SMALLSERIAL PRIMARY KEY,
+	job_title VARCHAR(100) NOT NULL UNIQUE	
+);
+
+CREATE TABLE IF NOT EXISTS medical_employees (
+	id SERIAL PRIMARY KEY REFERENCES abstract_users,
+    job SMALLSERIAL,
+    cabinet SMALLSERIAL NOT NULL,
+	FOREIGN KEY (job) REFERENCES medical_jobs (medical_job_id) ON UPDATE CASCADE ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS logging (
+	log_id BIGSERIAL PRIMARY KEY,
+    user_id SERIAL,
+    description VARCHAR(200) NOT NULL,
+    datetime TIMESTAMP NOT NULL DEFAULT NOW(),
+    FOREIGN KEY (user_id) REFERENCES abstract_users (user_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
