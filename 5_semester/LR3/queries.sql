@@ -11,4 +11,5 @@ JOIN abstract_users ON vacationers.id = abstract_users.user_id;
 SELECT surname FROM abstract_users WHERE surname ~ 'S[a-z]*';
 
 
+SELECT * from procedures;
 

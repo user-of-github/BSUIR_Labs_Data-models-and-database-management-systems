@@ -31,7 +31,8 @@ ON CONFLICT DO NOTHING;
 
 INSERT 
 INTO rooms(room_id, number, possible_people_count) 
-VALUES (1, 108, 2), (2, 122, 2), (3, 105, 1), (4, 120, 4), (5, 322, 5), (6, 320, 7), (7, 323, 2), (8, 324, 3)
+VALUES (1, 108, 2), (2, 122, 2), (3, 105, 1), (4, 120, 4), (5, 322, 5), (6, 320, 7), (7, 323, 2), (8, 324, 3),
+(9, 116, 1) -- temp, will delete it later
 ON CONFLICT DO NOTHING;
 
 
@@ -48,7 +49,8 @@ VALUES
 (8, 'email8@gmail.com', crypt('new password8', gen_salt('md5')), 'Petrovich', 'Petrovich'), -- admin
 (9, 'email9@gmail.com', crypt('new password9', gen_salt('md5')), 'Anthony', 'Stark'), -- medical employee
 (10, 'email10@gmail.com', crypt('new password10', gen_salt('md5')), 'Peter', 'Parker'), -- medical employee
-(11, 'email11@gmail.com', crypt('new password11', gen_salt('md5')), 'Daniel', 'Smith')
+(11, 'email11@gmail.com', crypt('new password11', gen_salt('md5')), 'Daniel', 'Smith'),
+(12, 'email12@gmail.com', crypt('new password12', gen_salt('md5')), 'Ivan', 'Motuhin') -- admin
 ON CONFLICT DO NOTHING;
 
 
@@ -67,8 +69,11 @@ ON CONFLICT DO NOTHING;
 
 INSERT 
 INTO administrators(id, room) 
-VALUES (7, 6), (8, 6)
+VALUES (7, 6), (8, 6), (12, 9)
 ON CONFLICT DO NOTHING;
+
+--DELETE FROM rooms WHERE rooms.room_id = 9;
+
 
 INSERT 
 INTO medical_employees(id, job, cabinet, room) 
@@ -76,10 +81,15 @@ VALUES (9, 1, 4, 8), (10, 2, 5, 8)
 ON CONFLICT DO NOTHING;
 
 
+DELETE FROM visited_events;
+
 INSERT 
 INTO visited_events(vacationer_id, extra_event_id)
 VALUES (1, 1), (1, 2), (3, 1), (4, 2)
 ON CONFLICT DO NOTHING;
+
+
+DELETE FROM used_entertainments;
 
 INSERT 
 INTO used_entertainments(vacationer_id, entertainment_id)
@@ -87,15 +97,19 @@ VALUES (1, 1), (1, 2), (1, 3), (5, 1)
 ON CONFLICT DO NOTHING;
 
 
+DELETE FROM used_procedures;
+
 INSERT 
 INTO used_procedures(vacationer_id, procedure_id)
 VALUES (1, 1), (2, 2), (3, 3), (1, 3), (1, 2)
 ON CONFLICT DO NOTHING;
 
 
+DELETE FROM serviced_procedures;
+
 INSERT 
 INTO serviced_procedures(medical_id, procedure_id)
-VALUES (9, 1), (9, 2), (9, 3), (10, 1), (10, 1)
+VALUES (9, 1), (9, 2), (9, 3), (10, 1), (10, 2)
 ON CONFLICT DO NOTHING;
 
 
