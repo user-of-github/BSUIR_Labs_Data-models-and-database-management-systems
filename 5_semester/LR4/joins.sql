@@ -72,6 +72,4 @@ INNER JOIN abstract_users ON abstract_users.user_id = vacationers.id
 WHERE (rooms.number > ((SELECT * FROM persons_room) - 10)) AND (rooms.number < ((SELECT * FROM persons_room) + 10));
 
 
-
-
-
+EXPLAIN (ANALYZE) SELECT * FROM rooms;
