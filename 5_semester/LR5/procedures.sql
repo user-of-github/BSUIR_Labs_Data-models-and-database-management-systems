@@ -89,4 +89,4 @@ $$;
 
 
 SELECT room_id FROM get_room_by_number(122) LIMIT 1; --2
-SELECT * FROM does_room_have_free_places(2); -- no, it doesn't
+SELECT * FROM does_room_have_free_places(2); -- 0 => no, it doesn't
