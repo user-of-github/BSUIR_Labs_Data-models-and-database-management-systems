@@ -9,6 +9,7 @@ ON CONFLICT DO NOTHING;
 
 $$;
 
+DELETE FROM rooms WHERE rooms.number = 200;
 CALL add_room(200, 1);
 
 
@@ -23,10 +24,11 @@ WHERE room_id = (SELECT room_id FROM rooms WHERE number = room_number);
 
 $$;
 
-CALL change_room_people_count(200, 3);
+--CALL change_room_people_count(200, 3);
 
 
 
+DROP FUNCTION get_room_by_number(INTEGER);
 CREATE OR REPLACE FUNCTION get_room_by_number(room_number INTEGER) 
 RETURNS TABLE (room_id INT, number INT, possible_people_count INT) 
 LANGUAGE SQL 
@@ -59,16 +61,32 @@ SELECT COUNT(id) FROM
 
 $$;
 
---DROP FUNCTION get_rooms_with_free_places();
+
+
+
+DROP FUNCTION get_rooms_with_free_places();
 CREATE OR REPLACE FUNCTION get_rooms_with_free_places() 
-RETURNS TABLE (number INT, places_left INT)
+RETURNS TABLE (room_id INT, number INT, places_left INT)
 LANGUAGE SQL
 AS $$
 
-SELECT rooms.number, rooms.possible_people_count - get_room_livers_count(rooms.room_id) AS "Places left" FROM rooms
+SELECT rooms.room_id AS "room_id", rooms.number AS "number", rooms.possible_people_count - get_room_livers_count(rooms.room_id) AS "Places_left" FROM rooms
 WHERE rooms.possible_people_count > get_room_livers_count(rooms.room_id);
 
 $$;
 
-
 SELECT get_rooms_with_free_places();
+
+
+DROP FUNCTION does_room_have_free_places(INT);
+CREATE OR REPLACE FUNCTION does_room_have_free_places(id INT)
+RETURNS INTEGER
+LANGUAGE SQL
+AS $$
+(SELECT COUNT(*) FROM (SELECT room_id FROM get_rooms_with_free_places()) AS "Free_rooms"
+WHERE room_id = id);
+$$;
+
+
+SELECT room_id FROM get_room_by_number(122) LIMIT 1; --2
+SELECT * FROM does_room_have_free_places(2); -- no, it doesn't

@@ -31,7 +31,7 @@ ON CONFLICT DO NOTHING;
 
 INSERT 
 INTO rooms(room_id, number, possible_people_count) 
-VALUES (1, 108, 2), (2, 122, 2), (3, 105, 1), (4, 120, 4), (5, 322, 5), (6, 320, 7), (7, 323, 2), (8, 324, 3),
+VALUES (1, 108, 2), (2, 122, 3), (3, 105, 1), (4, 120, 4), (5, 322, 5), (6, 320, 7), (7, 323, 2), (8, 324, 3),
 (9, 116, 1) -- temp, will delete it later
 ON CONFLICT DO NOTHING;
 
