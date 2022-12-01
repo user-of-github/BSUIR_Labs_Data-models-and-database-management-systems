@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS rooms (
     room_id SMALLSERIAL PRIMARY KEY,
-    number SMALLSERIAL UNIQUE NOT NULL,
-    possible_people_count SMALLSERIAL NOT NULL
+    number SMALLSERIAL UNIQUE NOT NULL CHECK(number > 0),
+    possible_people_count SMALLSERIAL NOT NULL CHECK(possible_people_count >= 1)
 );
 
 CREATE TABLE IF NOT EXISTS abstract_users (
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS medical_jobs (
 CREATE TABLE IF NOT EXISTS medical_employees (
 	id SERIAL PRIMARY KEY REFERENCES abstract_users,
     job SMALLSERIAL,
-    cabinet SMALLSERIAL NOT NULL,
+    cabinet SMALLSERIAL NOT NULL CHECK(cabinet > 0),
     room SMALLSERIAL,
 	FOREIGN KEY (job) REFERENCES medical_jobs (medical_job_id) ON UPDATE CASCADE ON DELETE SET NULL,
     FOREIGN KEY (room) REFERENCES rooms(room_id) ON UPDATE CASCADE ON DELETE SET NULL

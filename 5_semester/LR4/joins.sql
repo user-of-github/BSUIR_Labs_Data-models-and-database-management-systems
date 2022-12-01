@@ -59,7 +59,7 @@ LIMIT 1;
 
 
 -- get nearest neighbours of person
-DROP VIEW persons_room;
+DROP VIEW IF EXISTS persons_room;
 CREATE VIEW persons_room AS (SELECT rooms.number FROM abstract_users  
 INNER JOIN vacationers ON vacationers.id = abstract_users.user_id 
 INNER JOIN rooms ON rooms.room_id = vacationers.room 

@@ -27,16 +27,6 @@ INNER JOIN procedures ON procedures.procedure_id = used_procedures.procedure_id
 GROUP BY "Vacationer" 
 HAVING COUNT(procedures.title) > 2;
 
--- people and their procedures has or no procedures ?
--- SELECT CONCAT(abstract_users.name, ' ', abstract_users.surname) AS "Vacationer", 
--- COUNT(procedures.title) AS "Procedures count" 
--- CASE
---     WHEN COUNT(procedures.title) > 0 THEN 'Cured'
---     ELSE 'Not cured'
--- FROM used_procedures
--- INNER JOIN abstract_users ON abstract_users.user_id = vacationer_id
--- INNER JOIN procedures ON procedures.procedure_id = used_procedures.procedure_id 
--- GROUP BY "Vacationer";
 
 
 -- people and campus  

@@ -1,3 +1,5 @@
+DROP VIEW IF EXISTS persons_room;
+
 DROP TABLE IF EXISTS used_entertainments;
 DROP TABLE IF EXISTS used_procedures;
 DROP TABLE IF EXISTS serviced_procedures;
