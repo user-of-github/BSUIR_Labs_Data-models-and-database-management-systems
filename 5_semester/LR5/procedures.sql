@@ -24,3 +24,51 @@ WHERE room_id = (SELECT room_id FROM rooms WHERE number = room_number);
 $$;
 
 CALL change_room_people_count(200, 3);
+
+
+
+CREATE OR REPLACE FUNCTION get_room_by_number(room_number INTEGER) 
+RETURNS TABLE (room_id INT, number INT, possible_people_count INT) 
+LANGUAGE SQL 
+AS $$
+SELECT * FROM rooms WHERE rooms.number = room_number;
+$$;
+
+SELECT get_room_by_number(108);
+
+
+
+
+--DROP FUNCTION get_room_livers_count(INTEGER);
+CREATE OR REPLACE FUNCTION get_room_livers_count(room_id INTEGER) 
+RETURNS INTEGER
+LANGUAGE SQL
+AS $$
+
+SELECT COUNT(id) FROM 
+(
+    SELECT vacationers.id FROM vacationers
+    WHERE vacationers.room = room_id
+    UNION
+    SELECT administrators.id FROM administrators
+    WHERE administrators.room = room_id
+    UNION
+    SELECT medical_employees.id FROM medical_employees
+    WHERE medical_employees.room = room_id
+) AS "all_livers_from_this_room";
+
+$$;
+
+--DROP FUNCTION get_rooms_with_free_places();
+CREATE OR REPLACE FUNCTION get_rooms_with_free_places() 
+RETURNS TABLE (number INT, places_left INT)
+LANGUAGE SQL
+AS $$
+
+SELECT rooms.number, rooms.possible_people_count - get_room_livers_count(rooms.room_id) AS "Places left" FROM rooms
+WHERE rooms.possible_people_count > get_room_livers_count(rooms.room_id);
+
+$$;
+
+
+SELECT get_rooms_with_free_places();
