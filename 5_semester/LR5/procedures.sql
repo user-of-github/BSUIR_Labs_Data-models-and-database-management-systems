@@ -64,9 +64,9 @@ $$;
 
 
 
-DROP FUNCTION get_rooms_with_free_places();
-CREATE OR REPLACE FUNCTION get_rooms_with_free_places() 
-RETURNS TABLE (room_id INT, number INT, places_left INT)
+--DROP FUNCTION get_rooms_with_free_places();
+CREATE OR REPLACE FUNCTION get_rooms_with_free_places()         
+RETURNS TABLE (room_idd INT, number INT, places_left INT)
 LANGUAGE SQL
 AS $$
 
@@ -75,18 +75,3 @@ WHERE rooms.possible_people_count > get_room_livers_count(rooms.room_id);
 
 $$;
 
-SELECT get_rooms_with_free_places();
-
-
-DROP FUNCTION does_room_have_free_places(INT);
-CREATE OR REPLACE FUNCTION does_room_have_free_places(id INT)
-RETURNS INTEGER
-LANGUAGE SQL
-AS $$
-(SELECT COUNT(*) FROM (SELECT room_id FROM get_rooms_with_free_places()) AS "Free_rooms"
-WHERE room_id = id);
-$$;
-
-
-SELECT room_id FROM get_room_by_number(122) LIMIT 1; --2
-SELECT * FROM does_room_have_free_places(2); -- 0 => no, it doesn't

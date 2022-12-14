@@ -42,3 +42,8 @@ INTO abstract_users(user_id, email, password, name, surname)
 VALUES
 (15, 'email11155@gmail.com', crypt('new password4ddd', gen_salt('bf')), 'Aleasher', 'Tagirovichch')
 ON CONFLICT DO NOTHING;
+
+
+
+
+

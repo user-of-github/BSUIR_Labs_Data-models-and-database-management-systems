@@ -31,7 +31,7 @@ ON CONFLICT DO NOTHING;
 
 INSERT 
 INTO rooms(room_id, number, possible_people_count) 
-VALUES (1, 108, 2), (2, 122, 3), (3, 105, 1), (4, 120, 4), (5, 322, 5), (6, 320, 7), (7, 323, 2), (8, 324, 3),
+VALUES (1, 108, 2), (2, 122, 3), (3, 105, 8), (4, 120, 4), (5, 322, 5), (6, 320, 7), (7, 323, 2), (8, 324, 3),
 (9, 116, 1) -- temp, will delete it later
 ON CONFLICT DO NOTHING;
 
@@ -50,7 +50,8 @@ VALUES
 (9, 'email9@gmail.com', crypt('new password9', gen_salt('md5')), 'Anthony', 'Stark'), -- medical employee
 (10, 'email10@gmail.com', crypt('new password10', gen_salt('md5')), 'Peter', 'Parker'), -- medical employee
 (11, 'email11@gmail.com', crypt('new password11', gen_salt('md5')), 'Daniel', 'Smith'),
-(12, 'email12@gmail.com', crypt('new password12', gen_salt('md5')), 'Ivan', 'Motuhin') -- admin
+(12, 'email12@gmail.com', crypt('new password12', gen_salt('md5')), 'Ivan', 'Motuhin'), -- admin
+(20, 'email20@gmail.com', 'new password11', 'Test', 'AdminWeekPassword')
 ON CONFLICT DO NOTHING;
 
 
@@ -63,7 +64,8 @@ VALUES
 (4, '2022-08-04', '2022-08-23', 2),
 (5, '2022-08-04', '2022-08-23', 3),
 (6, '2022-08-04', '2022-08-23', 3),
-(11, '2022-11-04', '2022-12-12', 4)
+(11, '2022-11-04', '2022-12-12', 4),
+(20, '2022-12-12', '2022-12-19', 3)
 ON CONFLICT DO NOTHING;
 
 
