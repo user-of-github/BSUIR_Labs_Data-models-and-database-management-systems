@@ -4,6 +4,7 @@ import { Sequelize, QueryTypes } from 'sequelize'
 import { AuthorizationResponse, CheckAuthorizationBody } from './types'
 import { isAuthorized } from './utils'
 import { UNAUTHORIZED_STRING_MESSAGE } from './constants'
+import * as cors from 'cors'
 
 
 const app: Express = express()
@@ -12,8 +13,9 @@ const port: number = 8000
 const sequelize: Sequelize = new Sequelize('postgres://postgres:root@localhost:5432/SanatoriumResort')
 
 app.use(express.json())
+app.use(cors());
 
-app.get('/allrooms', async (request, response) => {
+app.post('/allrooms', async (request, response) => {
     const authorized: AuthorizationResponse = await isAuthorized(request, sequelize)
 
     if (!authorized.authorized) {
@@ -25,7 +27,7 @@ app.get('/allrooms', async (request, response) => {
     response.send(rooms)
 })
 
-app.get('/allvacationers', async (request, response) => {
+app.post('/allvacationers', async (request, response) => {
     const authorized: AuthorizationResponse = await isAuthorized(request, sequelize)
 
     if (!authorized.authorized || authorized.type === 'vacationer') {
@@ -42,7 +44,7 @@ app.get('/allvacationers', async (request, response) => {
     response.status(200).send(users)
 })
 
-app.get('/allmedicals', async (request, response) => {
+app.post('/allmedicals', async (request, response) => {
     const authorized: AuthorizationResponse = await isAuthorized(request, sequelize)
 
     if (!authorized.authorized) {
@@ -60,7 +62,7 @@ app.get('/allmedicals', async (request, response) => {
     response.status(200).send(users)
 })
 
-app.get('/alladmins', async (request, response) => {
+app.post('/alladmins', async (request, response) => {
     const authorized: AuthorizationResponse = await isAuthorized(request, sequelize)
 
     if (authorized.authorized) {
@@ -78,7 +80,7 @@ app.get('/alladmins', async (request, response) => {
     response.status(403).send()
 })
 
-app.get('/allusers', async (request, response) => {
+app.post('/allusers', async (request, response) => {
     const authorized: AuthorizationResponse = await isAuthorized(request, sequelize)
 
     console.log(authorized)
@@ -106,7 +108,7 @@ app.get('/allusers', async (request, response) => {
     response.status(403).send(UNAUTHORIZED_STRING_MESSAGE)
 })
 
-app.get('/roomswithplaces', async (request, response) => {
+app.post('/roomswithplaces', async (request, response) => {
     const authorized: AuthorizationResponse = await isAuthorized(request, sequelize)
 
     //console.log(authorized)
@@ -120,9 +122,20 @@ app.get('/roomswithplaces', async (request, response) => {
     response.status(403).send(UNAUTHORIZED_STRING_MESSAGE)
 })
 
-app.get('/checkauthorization', async (request, response) => {
+app.post('/checkauthorization', async (request, response) => {
+    console.log(request.body)
     const authorized = await isAuthorized(request, sequelize)
-    response.send(authorized)
+
+    
+    console.log(authorized);
+    
+    
+    if (authorized.authorized) {
+        response.status(200).send(authorized)
+        return
+    }
+
+    response.status(403).send(authorized)
 })
 
 
