@@ -1,12 +1,12 @@
-import {AuthorizationResponse, CheckAuthorizationBody, UserType} from './types'
-import {QueryTypes, Sequelize} from 'sequelize'
-import {Request} from 'express'
+import { AuthorizationResponse, CheckAuthorizationBody, UserType } from './types'
+import { QueryTypes, Sequelize } from 'sequelize'
+import { Request } from 'express'
 
 
 export const isAuthorized = async (request: Request, sequelize: Sequelize): Promise<AuthorizationResponse> => {
-    const data: CheckAuthorizationBody = request.body
+    const data: CheckAuthorizationBody = request.body.authentication
 
-    if (!('email' in data) || !('password' in data)) return {authorized: false}
+    if (!data || (!('email' in data) || !('password' in data))) return { authorized: false }
 
 
     const found: Array<any> = await sequelize.query(`
@@ -14,10 +14,10 @@ export const isAuthorized = async (request: Request, sequelize: Sequelize): Prom
                 WHERE abstract_users.email = '${data.email}' 
                 AND abstract_users.password = '${data.password}'
     `,
-        {type: QueryTypes.SELECT}
+        { type: QueryTypes.SELECT }
     )
 
-    if (found.length === 0) return {authorized: false}
+    if (found.length === 0) return { authorized: false }
 
     let type: UserType = 'unknown'
 
@@ -33,5 +33,5 @@ export const isAuthorized = async (request: Request, sequelize: Sequelize): Prom
         type = 'medicalEmployee'
     }
 
-    return {authorized: true, type: type, email: found[0].email, name: found[0].name, surname: found[0].surname}
+    return { authorized: true, type: type, email: found[0].email, password: data.password, name: found[0].name, surname: found[0].surname }
 }

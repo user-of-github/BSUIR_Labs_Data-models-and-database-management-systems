@@ -11,4 +11,5 @@ export interface AuthorizationResponse {
     email?: string
     name?: string
     surname?: string
+    password?: string
 }

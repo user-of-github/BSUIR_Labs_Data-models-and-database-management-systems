@@ -1,20 +1,29 @@
-import {AuthorizationResponse, CheckAuthorizationBody} from './types'
+import {AuthorizationResponse, CheckAuthorizationBody, RequestType, ServerResponse} from './types'
 import {LS_AUTH_DATA, LS_AUTH_STATUS} from './constants'
 
+export const requestToServer = async (url: string, callback: any, method: string, body?: RequestType) => {
+    const response: Response = await fetch(url, {
+        method: method,
+        headers: {'Content-Type': 'application/json'},
+        body: body ? JSON.stringify(body) : null
+    })
+    const answer = await response.json()
+
+    return callback(answer)
+}
 
 export const tryAuthorize = async (authData: CheckAuthorizationBody) => {
-    const response: Response = await fetch('http://localhost:8000/checkauthorization', {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        headers: {'Content-Type': 'application/json'},
-        redirect: 'follow', // manual, *follow, error
-        body: JSON.stringify(authData)
+    const callback = (answer: any): void => {
+        changeLocalAuthStatus(answer)
+        return answer
+    }
+
+    const result: AuthorizationResponse = await requestToServer('http://localhost:8000/checkauthorization', callback, 'POST', {
+        authentication: authData,
+        body: null
     })
-    const answer: AuthorizationResponse = await response.json()
-    console.log(answer)
 
-    changeLocalAuthStatus(answer)
-
-    return answer.authorized
+    return result
 }
 
 
@@ -27,4 +36,177 @@ export const changeLocalAuthStatus = (authorizationResponse: AuthorizationRespon
 export const logOutFromLocalStorage = (): void => {
     localStorage.removeItem(LS_AUTH_DATA)
     localStorage.setItem(LS_AUTH_STATUS, JSON.stringify(false))
+}
+
+export const getAuthDataFromLocalStorage = (): AuthorizationResponse => {
+    const tryGetStatus: string = localStorage.getItem(LS_AUTH_STATUS) || 'false'
+    if (JSON.parse(tryGetStatus) === false) return {authorized: false}
+
+    const tryGetData: string = localStorage.getItem(LS_AUTH_DATA)!
+
+    return JSON.parse(tryGetData)
+}
+
+
+export const getMedicalsList = async (setToComponent: any) => {
+    const callback = (answer: any): void => {
+        setToComponent(answer)
+    }
+
+    const currentlyAuthorized = getAuthDataFromLocalStorage()
+
+    const result: ServerResponse = await requestToServer('http://localhost:8000/allmedicals', callback, 'POST', {
+        authentication: {email: currentlyAuthorized.email || '0', password: currentlyAuthorized.password || '0'},
+        body: null
+    })
+
+    return result
+}
+
+export const getAdminsList = async (setToComponent: any) => {
+    const callback = (answer: any): void => {
+        setToComponent(answer)
+    }
+
+    const currentlyAuthorized = getAuthDataFromLocalStorage()
+
+    const result: ServerResponse = await requestToServer('http://localhost:8000/alladmins', callback, 'POST', {
+        authentication: {email: currentlyAuthorized.email || '0', password: currentlyAuthorized.password || '0'},
+        body: null
+    })
+
+    return result
+}
+
+
+export const getEntertainmentsList = async (setToComponent: any) => {
+    const callback = (answer: any) => setToComponent(answer)
+
+    const result: ServerResponse = await requestToServer('http://localhost:8000/allentertainments', callback, 'GET')
+
+    return result
+}
+
+export const getProceduresList = async (setToComponent: any) => {
+    const callback = (answer: any) => setToComponent(answer)
+
+    const result: ServerResponse = await requestToServer('http://localhost:8000/allprocedures', callback, 'GET')
+
+    return result
+}
+
+export const getVacationersList = async (setToComponent: any) => {
+    const callback = (answer: any): void => {
+        setToComponent(answer)
+    }
+
+    const currentlyAuthorized = getAuthDataFromLocalStorage()
+
+    const result: ServerResponse = await requestToServer('http://localhost:8000/allvacationers', callback, 'POST', {
+        authentication: {email: currentlyAuthorized.email || '0', password: currentlyAuthorized.password || '0'},
+        body: null
+    })
+
+    return result
+}
+
+export const updateUsername = async (id: number, newName: string) => {
+    const callback = (answer: any): void => {
+        if (answer.status === 'OK') {
+            window.alert('Successfully updated')
+            window.location.reload()
+        } else {
+            window.alert(answer.status)
+        }
+    }
+
+    const currentlyAuthorized = getAuthDataFromLocalStorage()
+
+    const result: ServerResponse = await requestToServer(`http://localhost:8000/updateusername/${id}?newname=${newName}`, callback, 'PUT', {
+        authentication: {email: currentlyAuthorized.email || '0', password: currentlyAuthorized.password || '0'},
+        body: null
+    })
+
+    return result
+}
+
+export const updateUserSurname = async (id: number, newSurname: string) => {
+    const callback = (answer: any): void => {
+        if (answer.status === 'OK') {
+            window.alert('Successfully updated')
+            window.location.reload()
+        } else {
+            window.alert(answer.status)
+        }
+    }
+
+    const currentlyAuthorized = getAuthDataFromLocalStorage()
+
+    const result: ServerResponse = await requestToServer(`http://localhost:8000/updateusersurname/${id}?newsurname=${newSurname}`, callback, 'PUT', {
+        authentication: {email: currentlyAuthorized.email || '0', password: currentlyAuthorized.password || '0'},
+        body: null
+    })
+
+    return result
+}
+
+
+export const updateUserRoom = async (id: number, newRoom: number) => {
+    const callback = (answer: any): void => {
+        if (answer.status === 'OK') {
+            window.alert('Successfully updated')
+            window.location.reload()
+        } else {
+            window.alert(answer.status)
+        }
+    }
+
+    const currentlyAuthorized = getAuthDataFromLocalStorage()
+
+    const result: ServerResponse = await requestToServer(`http://localhost:8000/updateuserroom/${id}?room=${newRoom}`, callback, 'PUT', {
+        authentication: {email: currentlyAuthorized.email || '0', password: currentlyAuthorized.password || '0'},
+        body: null
+    })
+
+    return result
+}
+
+export const updateMedicalCabinet = async (id: number, newCabinet: number) => {
+    const callback = (answer: any): void => {
+        if (answer.status === 'OK') {
+            window.alert('Successfully updated')
+            window.location.reload()
+        } else {
+            window.alert(answer.status)
+        }
+    }
+
+    const currentlyAuthorized = getAuthDataFromLocalStorage()
+
+    const result: ServerResponse = await requestToServer(`http://localhost:8000/updatemedicalcabinet/${id}?cabinet=${newCabinet}`, callback, 'PUT', {
+        authentication: {email: currentlyAuthorized.email || '0', password: currentlyAuthorized.password || '0'},
+        body: null
+    })
+
+    return result
+}
+
+export const getRoomsWithFreePlacesList = async (setToComponent: any) => {
+    const callback = (answer: any): void => {
+        setToComponent(answer)
+    }
+
+    const currentlyAuthorized: AuthorizationResponse = getAuthDataFromLocalStorage()
+
+    const result: ServerResponse = await requestToServer('http://localhost:8000/freerooms', callback, 'POST', {
+        authentication: {email: currentlyAuthorized.email || '0', password: currentlyAuthorized.password || '0'},
+        body: null
+    })
+
+    return result
+}
+
+
+export const onlyLetters = (str: string): boolean => {
+    return /^[A-Za-z]*$/.test(str);
 }

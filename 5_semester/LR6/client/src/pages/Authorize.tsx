@@ -4,21 +4,19 @@ import {Redirect} from 'react-router-dom'
 
 
 export const Authorize = (): JSX.Element => {
-    console.log(localStorage.getItem(LS_AUTH_STATUS))
+    //console.log(localStorage.getItem(LS_AUTH_STATUS))
     const isAuthorized: boolean = JSON.parse(localStorage.getItem(LS_AUTH_STATUS) || 'false')
-    console.log(isAuthorized)
+    //console.log(isAuthorized)
     if (isAuthorized) {
-        return (
-            <Redirect to={'/main'}/>
-        )
+        window.alert('You are already authorized')
+        return <Redirect to={'/'}/>
     }
 
     return (
         (
-            <>
-                <h1>Authorization</h1>
+            <main className={'main page'}>
                 <AuthForm/>
-            </>
+            </main>
         )
     )
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import {tryAuthorize} from '../utils'
 import {useHistory} from 'react-router-dom'
+import {AuthorizationResponse} from '../types'
 
 export const AuthForm = (): JSX.Element => {
     const email = React.useRef<string>('')
@@ -16,10 +17,11 @@ export const AuthForm = (): JSX.Element => {
     }
 
     const authButtonPressed = async () => {
-        const response = await tryAuthorize({email: email.current, password: password.current})
+        const response: AuthorizationResponse = await tryAuthorize({email: email.current, password: password.current})
 
-        if (response) {
-            history.push('/main')
+        if (response.authorized) {
+            window.alert(`Authorization successful\nGlad to see you, ${response.name} ${response.surname} !`)
+            history.push('/')
         } else {
             window.alert('Authorization failed')
         }
@@ -27,6 +29,7 @@ export const AuthForm = (): JSX.Element => {
 
     return (
         <form onSubmit={e => e.preventDefault()} action='#' className={'form'}>
+            <h1>Authorization</h1>
             <input maxLength={30} className={'form__input'} onChange={onEmailChange} type={'email'} required={true} placeholder={'Email'}/>
             <input maxLength={30} className={'form__input'} onChange={onPasswordChange} type={'password'} required={true} placeholder={'Password'}/>
 

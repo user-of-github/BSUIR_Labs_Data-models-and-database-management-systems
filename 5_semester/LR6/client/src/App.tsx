@@ -8,6 +8,13 @@ import {
 import {Main} from './pages/Main'
 import {Navigation} from './components/Navigation'
 import {Authorize} from './pages/Authorize'
+import {MedicalsListPage} from './pages/MedicalsListPage'
+import {AdminsListPage} from './pages/AdminsListPage'
+import {EntertainmentsListPage} from './pages/EntertainmentsListPage'
+import {VacationersListPage} from './pages/VacationersListPage'
+import {ProceduresListPage} from './pages/ProceduresListPage'
+import {FreeRoomsListPage} from './pages/FreeRoomsListPage'
+import {AddNewPage} from './pages/AddNew'
 
 
 export const App = (): JSX.Element => {
@@ -21,6 +28,27 @@ export const App = (): JSX.Element => {
                     </Route>
                     <Route path="/auth">
                        <Authorize/>
+                    </Route>
+                    <Route path="/medicals">
+                        <MedicalsListPage/>
+                    </Route>
+                    <Route path={'/admins'}>
+                        <AdminsListPage/>
+                    </Route>
+                    <Route path={'/entertainments'}>
+                        <EntertainmentsListPage/>
+                    </Route>
+                    <Route path={'/vacationers'}>
+                        <VacationersListPage/>
+                    </Route>
+                    <Route path={'/procedures'}>
+                        <ProceduresListPage/>
+                    </Route>
+                    <Route path={'/freerooms'}>
+                        <FreeRoomsListPage/>
+                    </Route>
+                    <Route path={'/addnew'}>
+                        <AddNewPage/>
                     </Route>
                 </Switch>
             </Router>
