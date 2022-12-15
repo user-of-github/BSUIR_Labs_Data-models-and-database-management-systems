@@ -75,3 +75,14 @@ WHERE rooms.possible_people_count > get_room_livers_count(rooms.room_id);
 
 $$;
 
+
+CREATE OR REPLACE PROCEDURE add_procedure(new_title VARCHAR(50), new_description VARCHAR(200), new_price INTEGER)
+LANGUAGE SQL
+AS $$
+
+INSERT 
+INTO procedures (procedure_id, title, description, price) 
+VALUES ((SELECT MAX(procedure_id) FROM procedures) + 1, new_title, new_description, new_price)
+ON CONFLICT DO NOTHING;
+
+$$;

@@ -386,3 +386,18 @@ hr {
   justify-content: space-between;
   font-weight: 900;
 }
+
+.addNewContainer {
+  display: grid;
+  grid-gap: 30px;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 40px;
+}
+
+.addNewContainer .button {
+  width: 100%;
+  cursor: pointer;
+}
+.addNewContainer .button:hover {
+  transform: scale(1.05);
+}

@@ -268,6 +268,64 @@ app.post('/freerooms', async (request, response) => {
     response.status(200).send({ status: 'OK', data: data })
 })
 
+app.post('/createroom', async (request, response) => {
+    const authorized = await isAuthorized(request, sequelize)
+
+    if (!authorized.authorized || authorized.type !== 'administrator') {
+        response.status(403).send({ status: UNAUTHORIZED_STRING_MESSAGE })
+        return
+    }
+    const number = Number(request.body.body.number)
+    const count = Number(request.body.body.peopleCount)
+
+    console.log(request.body);
+    
+
+    if (Number.isNaN(number) || Number.isNaN(count) || number <= 0 || count <= 0 || number > 400 || count > 12) {
+        response.status(400).send({ status: INVALID_QUERY_ARGUMENT_MESSAGE + ' (wrong room number or possible people count))' })
+        return
+    }
+
+    const tryRoomWithSuchNumber = await sequelize.query(`SELECT * FROM rooms WHERE rooms.number = ${number}`, {type: QueryTypes.SELECT})
+
+    if (tryRoomWithSuchNumber.length !== 0) {
+        response.status(400).send({ status: INVALID_QUERY_ARGUMENT_MESSAGE + ' (such room already exists)' })
+        return
+    }
+
+    await sequelize.query(`CALL add_room(${number}, ${count})`,{ type: QueryTypes.INSERT })
+    response.status(200).send({ status: 'OK' })
+})
+
+app.post('/createprocedure', async (request, response) => {
+    const authorized = await isAuthorized(request, sequelize)
+
+    if (!authorized.authorized || authorized.type !== 'administrator') {
+        response.status(403).send({ status: UNAUTHORIZED_STRING_MESSAGE })
+        return
+    }
+    const title: string = request.body.body.title.trim()
+    const description: string = request.body.body.description.trim()
+    const price: number = Number(request.body.body.price)
+
+    console.log(title, description, price);
+    
+
+    if (Number.isNaN(price) || price < 0 || title === '' || description === '') {
+        response.status(400).send({ status: INVALID_QUERY_ARGUMENT_MESSAGE })
+        return
+    }
+
+    const tryProcWithSuchName = await sequelize.query(`SELECT * FROM procedures WHERE LOWER(procedures.title) = '${title.toLowerCase()}'`, {type: QueryTypes.SELECT})
+
+    if (tryProcWithSuchName.length !== 0) {
+        response.status(400).send({ status: INVALID_QUERY_ARGUMENT_MESSAGE + ' (procedure with such name exists)' })
+        return
+    }
+
+    await sequelize.query(`CALL add_procedure('${title}', '${description}', ${price})`,{ type: QueryTypes.INSERT })
+    response.status(200).send({ status: 'OK' })
+})
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

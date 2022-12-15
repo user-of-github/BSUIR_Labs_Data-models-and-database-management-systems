@@ -15,6 +15,8 @@ import {VacationersListPage} from './pages/VacationersListPage'
 import {ProceduresListPage} from './pages/ProceduresListPage'
 import {FreeRoomsListPage} from './pages/FreeRoomsListPage'
 import {AddNewPage} from './pages/AddNew'
+import {AddNewRoomPage} from './pages/AddNewRoom'
+import {AddNewProcedure} from './pages/AddNewProcedure'
 
 
 export const App = (): JSX.Element => {
@@ -49,6 +51,12 @@ export const App = (): JSX.Element => {
                     </Route>
                     <Route path={'/addnew'}>
                         <AddNewPage/>
+                    </Route>
+                    <Route path={'/addnewroom'}>
+                        <AddNewRoomPage/>
+                    </Route>
+                    <Route path={'/newprocedure'}>
+                        <AddNewProcedure/>
                     </Route>
                 </Switch>
             </Router>

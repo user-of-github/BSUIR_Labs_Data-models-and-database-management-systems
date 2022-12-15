@@ -206,6 +206,51 @@ export const getRoomsWithFreePlacesList = async (setToComponent: any) => {
     return result
 }
 
+export const createNewRoom = async (number: string, peopleCount: string) => {
+    const callback = (answer: ServerResponse): void => {
+        if (answer.status !== 'OK') {
+            window.alert(answer.status)
+        } else {
+            window.alert('Successfully created room № ' + number)
+        }
+    }
+
+    const currentlyAuthorized: AuthorizationResponse = getAuthDataFromLocalStorage()
+
+    const result: ServerResponse = await requestToServer('http://localhost:8000/createroom', callback, 'POST', {
+        authentication: {email: currentlyAuthorized.email || '0', password: currentlyAuthorized.password || '0'},
+        body: {
+            number: Number(number),
+            peopleCount: Number(peopleCount)
+        }
+    })
+
+    return result
+}
+
+export const createNewProcedure = async (title: string, description: string, price: number) => {
+    const callback = (answer: ServerResponse): void => {
+        if (answer.status !== 'OK') {
+            window.alert(answer.status)
+        } else {
+            window.alert('Successfully created procedure ' + title)
+        }
+    }
+
+    const currentlyAuthorized: AuthorizationResponse = getAuthDataFromLocalStorage()
+
+    console.log(title, description, price)
+    const result: ServerResponse = await requestToServer('http://localhost:8000/createprocedure', callback, 'POST', {
+        authentication: {email: currentlyAuthorized.email || '0', password: currentlyAuthorized.password || '0'},
+        body: {
+            title: title,
+            description: description,
+            price: price
+        }
+    })
+
+    return result
+}
 
 export const onlyLetters = (str: string): boolean => {
     return /^[A-Za-z]*$/.test(str);

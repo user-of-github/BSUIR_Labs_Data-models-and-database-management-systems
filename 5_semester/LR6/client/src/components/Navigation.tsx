@@ -23,6 +23,7 @@ export const Navigation = (): JSX.Element => {
                 <button className={'navigation__item'} onClick={() => onLogOut()}>Log out</button>
             </div>
             <div className="navigation__row">
+
                 <Link to={'/'}>
                     <button className={'navigation__item'}>Main</button>
                 </Link>
@@ -32,8 +33,10 @@ export const Navigation = (): JSX.Element => {
                 <Link to={'/entertainments'}>
                     <button className={'navigation__item'}>Entertainments</button>
                 </Link>
+                ←— General info
             </div>
             <div className="navigation__row">
+
                 <Link to={'/medicals'}>
                     <button className={'navigation__item'}>Medical personnel</button>
                 </Link>
@@ -46,11 +49,14 @@ export const Navigation = (): JSX.Element => {
                 <Link to={'/freerooms'}>
                     <button className={'navigation__item'}>Rooms with free places</button>
                 </Link>
+                ←— Current state of Sanatorium
             </div>
             <div className="navigation__row">
+
                 <Link to={'/addnew'}>
                     <button className={'navigation__item'}>Add new items [employees only]</button>
                 </Link>
+                ←— Creator's studio
             </div>
         </nav>
     )

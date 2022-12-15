@@ -24,12 +24,12 @@ export const AddNewPage = (): JSX.Element => {
            <h2>Be careful: some actions available only for administrators</h2>
 
            <div className={'addNewContainer'}>
-               <Link to={'newroom'}>
-                   <button className={'button'}>create new room</button>
+               <Link to={'addnewroom'}>
+                   <button className={'button'}>Create new room</button>
                </Link>
 
                <Link to={'newprocedure'}>
-                   <button className={'button'}>create new procedure</button>
+                   <button className={'button'}>Create new procedure</button>
                </Link>
            </div>
        </main>
