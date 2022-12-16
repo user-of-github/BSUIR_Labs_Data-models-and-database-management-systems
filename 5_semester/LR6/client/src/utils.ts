@@ -28,7 +28,7 @@ export const tryAuthorize = async (authData: CheckAuthorizationBody) => {
 
 
 export const changeLocalAuthStatus = (authorizationResponse: AuthorizationResponse): void => {
-    localStorage.setItem(LS_AUTH_STATUS, JSON.stringify(true))
+    localStorage.setItem(LS_AUTH_STATUS, JSON.stringify(authorizationResponse.authorized))
 
     localStorage.setItem(LS_AUTH_DATA, JSON.stringify(authorizationResponse))
 }
