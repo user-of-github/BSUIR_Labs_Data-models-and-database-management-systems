@@ -1,13 +1,14 @@
 SET SERVEROUTPUT ON SIZE UNLIMITED;
 
--- Task 1
+-- TASK 1
 DROP TABLE MyTable;
 CREATE TABLE MyTable(
     id NUMBER PRIMARY KEY,
     val NUMBER NOT NULL
 );
 
--- Task 2
+
+-- TASK 2
 DECLARE
     insert_count NUMBER := 10000;
     max_value NUMBER := 2023;
@@ -19,7 +20,8 @@ BEGIN
 END;
 /
 
--- task 3
+
+-- TASK 3
 CREATE OR REPLACE FUNCTION get_accordance_of_even_and_odd_values
 RETURN VARCHAR2
 IS 
@@ -53,6 +55,24 @@ DECLARE
    functions_response VARCHAR2(5) := NULL; 
 BEGIN
     functions_response := get_accordance_of_even_and_odd_values();
+    DBMS_OUTPUT.PUT_LINE(functions_response);
+END;
+
+
+-- TASK 4
+/
+CREATE OR REPLACE FUNCTION generate_insert_query(id IN NUMBER, val IN NUMBER) 
+RETURN VARCHAR2
+IS
+BEGIN
+    RETURN utl_lms.format_message('INSERT INTO MyTable VALUES (%d, %d)', TO_CHAR(id), TO_CHAR(val));
+END;
+
+/
+DECLARE
+   functions_response VARCHAR2(100) := NULL; 
+BEGIN
+    functions_response := generate_insert_query(2023, 2023);
     DBMS_OUTPUT.PUT_LINE(functions_response);
 END;
 
