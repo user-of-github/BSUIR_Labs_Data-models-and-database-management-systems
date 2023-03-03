@@ -126,10 +126,15 @@ CREATE OR REPLACE FUNCTION get_annual_full_salary(month_salary NUMBER, additiona
 RETURN REAL
 IS 
     response REAL := 0.00;
-    INVALID_PERCENTAGE_ADDITION EXCEPTION;
+    INVALID_PERCENTAGE_EXCEPTION EXCEPTION;
+    INVALID_SALARY_EXCEPTION EXCEPTION;
 BEGIN
     IF additional_percentage < 0 THEN
-        RAISE INVALID_PERCENTAGE_ADDITION;
+        RAISE INVALID_PERCENTAGE_EXCEPTION;
+    END IF;
+
+    IF month_salary <= 0 THEN
+        RAISE INVALID_SALARY_EXCEPTION;
     END IF;
 
     response := (1 + additional_percentage / 100) * 12 * month_salary;
@@ -139,13 +144,16 @@ BEGIN
      EXCEPTION
         WHEN INVALID_NUMBER THEN
             DBMS_OUTPUT.PUT_LINE('Wrong input type');
-            RETURN 0.00;
-        WHEN INVALID_PERCENTAGE_ADDITION THEN
+            RETURN NULL;
+        WHEN INVALID_PERCENTAGE_EXCEPTION THEN
             DBMS_OUTPUT.PUT_LINE('Invalid percent');
-            RETURN 0.00;
+            RETURN NULL;
+        WHEN INVALID_SALARY_EXCEPTION THEN
+            DBMS_OUTPUT.PUT_LINE('Invalid salary');
+            RETURN NULL;
         WHEN ZERO_DIVIDE THEN 
             DBMS_OUTPUT.PUT_LINE('Zero division forbidden');
-            RETURN 0.00;
+            RETURN NULL;
 
 END;
 
@@ -154,4 +162,5 @@ DECLARE
     function_response REAL;
 BEGIN
     DBMS_OUTPUT.PUT_LINE(get_annual_full_salary(12, 13));
+    DBMS_OUTPUT.PUT_LINE(get_annual_full_salary(-12, 13));
 END;
