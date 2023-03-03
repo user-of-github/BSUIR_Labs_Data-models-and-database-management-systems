@@ -76,3 +76,82 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE(functions_response);
 END;
 
+
+-- TASK 5
+/
+CREATE OR REPLACE PROCEDURE insert_operation(table_name VARCHAR2, id NUMBER, val NUMBER) 
+IS
+    command VARCHAR2(100) := '';
+BEGIN
+    command := utl_lms.format_message('INSERT INTO %s(id,val) VALUES (%d, %d)', table_name, TO_CHAR(id), TO_CHAR(val));
+	EXECUTE IMMEDIATE command;
+END;
+/
+BEGIN 
+    insert_operation('MyTable', 10001, 13);
+END;
+/
+
+CREATE OR REPLACE PROCEDURE perform_update(table_name VARCHAR2, id NUMBER, val NUMBER) 
+IS
+    command VARCHAR2(100) := '';
+BEGIN
+	command := utl_lms.format_message('UPDATE %s SET val=%d WHERE id=%d', table_name, TO_CHAR(val), TO_CHAR(id));
+    EXECUTE IMMEDIATE command;
+END;	
+/
+BEGIN
+    perform_update('MyTable', 20232023, 2023);
+END;
+
+/
+CREATE OR REPLACE PROCEDURE perform_delete(table_name VARCHAR2, id NUMBER) 
+IS
+     command VARCHAR2(100) := '';
+BEGIN
+	command := utl_lms.format_message('DELETE FROM %s WHERE id=%d', table_name, TO_CHAR(id));
+    EXECUTE IMMEDIATE command;
+END;
+/
+BEGIN
+    perform_delete('MyTable', 20232023);
+END;
+/
+
+
+
+-- TASK 6
+/
+CREATE OR REPLACE FUNCTION get_annual_full_salary(month_salary NUMBER, additional_percentage NUMBER)
+RETURN REAL
+IS 
+    response REAL := 0.00;
+    INVALID_PERCENTAGE_ADDITION EXCEPTION;
+BEGIN
+    IF additional_percentage < 0 THEN
+        RAISE INVALID_PERCENTAGE_ADDITION;
+    END IF;
+
+    response := (1 + additional_percentage / 100) * 12 * month_salary;
+
+    RETURN response;
+
+     EXCEPTION
+        WHEN INVALID_NUMBER THEN
+            DBMS_OUTPUT.PUT_LINE('Wrong input type');
+            RETURN 0.00;
+        WHEN INVALID_PERCENTAGE_ADDITION THEN
+            DBMS_OUTPUT.PUT_LINE('Invalid percent');
+            RETURN 0.00;
+        WHEN ZERO_DIVIDE THEN 
+            DBMS_OUTPUT.PUT_LINE('Zero division forbidden');
+            RETURN 0.00;
+
+END;
+
+/
+DECLARE
+    function_response REAL;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(get_annual_full_salary(12, 13));
+END;
