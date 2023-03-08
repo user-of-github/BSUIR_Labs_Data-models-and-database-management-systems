@@ -1,6 +1,5 @@
 -- TASK 2
 
-/
 DROP SEQUENCE group_id_generator;
 CREATE SEQUENCE group_id_generator START WITH 4 INCREMENT BY 1 CACHE 100;
 CREATE OR REPLACE TRIGGER generate_group_id
@@ -11,6 +10,9 @@ BEGIN
 END;
 
 /
+DELETE FROM groups WHERE name='Group D' AND students_count=0;
+DELETE FROM groups WHERE name='Group E' AND students_count=0;
+DELETE FROM groups WHERE name='Group F' AND students_count=0;
 
 INSERT INTO groups(name, students_count) VALUES ('Group D', 0);
 INSERT INTO groups(name, students_count) VALUES ('Group E', 0);
@@ -34,6 +36,8 @@ EXCEPTION
 END;
 -- check this trigger
 /
+
+DELETE FROM groups WHERE name='Group K' AND students_count=0;
 
 INSERT INTO groups(name, students_count) VALUES('Group A', 3);
 INSERT INTO groups(name, students_count) VALUES('Group K', 0);
