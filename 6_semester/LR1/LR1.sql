@@ -10,7 +10,7 @@ CREATE TABLE MyTable(
 
 -- TASK 2
 DECLARE
-    insert_count NUMBER := 10000;
+    insert_count NUMBER := 10;
     max_value NUMBER := 2023;
 BEGIN
     FOR i IN 1 .. insert_count LOOP
@@ -19,6 +19,9 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('Inserted ' || insert_count ||  ' rows');
 END;
 /
+SELECT * FROM MyTable;
+/
+
 
 
 -- TASK 3
@@ -163,3 +166,47 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE(get_annual_full_salary(12, 13));
     DBMS_OUTPUT.PUT_LINE(get_annual_full_salary(-12, 13));
 END;
+
+
+
+
+-- TASK FROM TEACHER AT PASSING LR TIME
+/
+SELECT * FROM MyTable;
+
+CREATE OR REPLACE FUNCTION if_id_exists_generate_insert(searched_id IN NUMBER)
+RETURN VARCHAR2
+IS
+    response VARCHAR2(100) := 'NOT EXISTS';
+    val NUMBER;
+    CURSOR row_cursor IS SELECT val FROM MyTable WHERE id=searched_id;
+BEGIN
+    OPEN row_cursor;
+    FETCH row_cursor INTO val;
+
+    IF row_cursor%NOTFOUND THEN
+        DBMS_OUTPUT.PUT_LINE('NOT FOUND');
+        RETURN '';
+    END IF;
+
+    response := utl_lms.format_message('INSERT INTO MyTable VALUES (%d, %d)', TO_CHAR(searched_id + 20), TO_CHAR(val));
+
+    DBMS_OUTPUT.PUT_LINE(response);
+    --EXECUTE IMMEDIATE response;
+    RETURN response;
+    --RETURN utl_lms.format_message('INSERT INTO MyTable VALUES (%d, %d)', TO_CHAR(id), TO_CHAR(val));
+END;
+
+/
+DECLARE
+    response_wrong VARCHAR2(100) := '';
+    response VARCHAR2(100) := '';
+BEGIN
+    --response_wrong := if_id_exists_generate_insert(5145185);
+    --response := if_id_exists_generate_insert(10);
+    --DBMS_OUTPUT.PUT_LINE(response);
+    --EXECUTE IMMEDIATE response;
+    EXECUTE IMMEDIATE 'SELECT * FROM MyTable';
+END;
+/
+SELECT * FROM MyTable;

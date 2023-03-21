@@ -46,3 +46,8 @@ INSERT INTO students(name, group_id) VALUES('Polina', 3);
 INSERT INTO groups(id, name, students_count) VALUES(1, 'Group A', 0);
 INSERT INTO groups(id, name, students_count) VALUES(2, 'Group B', 0);
 INSERT INTO groups(id, name, students_count) VALUES(3, 'Group C', 0);
+
+
+SELECT * FROM students;
+
+SELECT * FROM groups;

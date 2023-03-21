@@ -13,12 +13,6 @@ END;
 
 /
 
-SELECT * FROM students;
-SELECT * FROM groups;
 
-DELETE FROM groups WHERE groups.id = 1;
 
-SELECT * FROM students;
-SELECT * FROM groups;
-
-DROP TRIGGER delete_students_before_removing_group;
+--DROP TRIGGER delete_students_before_removing_group;
