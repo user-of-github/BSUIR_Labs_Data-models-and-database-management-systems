@@ -158,8 +158,7 @@ BEGIN
 END;
 
 /
-DECLARE
-    function_response REAL;
+
 BEGIN
     DBMS_OUTPUT.PUT_LINE(get_annual_full_salary(12, 13));
     DBMS_OUTPUT.PUT_LINE(get_annual_full_salary(-12, 13));

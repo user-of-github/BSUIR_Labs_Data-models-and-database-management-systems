@@ -27,7 +27,11 @@ END;
 SELECT * FROM logging_actions_on_students_table;
 SELECT * FROM students;
 /
-EXEC restore_students_table_state(TO_TIMESTAMP('08-MAR-23 07.00.15.992826000 PM'));
+--BEGIN
+    -- проверить на примере  DELETE FROM students WHERE id=70; то есть первый запуск закомментирована функция, роман удалился, потом вторым запуском восстанавливаю
+    --restore_students_table_state(TO_TIMESTAMP('21-MAR-23 10.46.41.160500000 AM')); -- поставить ранее чем был удален 
+--END;
+
 /
 SELECT * FROM logging_actions_on_students_table;
 SELECT * FROM students;
