@@ -16,7 +16,15 @@ EXCEPTION
       RAISE;
     END IF;
 END;
-
+/
+BEGIN
+  EXECUTE IMMEDIATE 'DROP TABLE differ_table_example';
+EXCEPTION
+  WHEN OTHERS THEN
+    IF SQLCODE != -942 THEN
+      RAISE;
+    END IF;
+END;
 -- create tables
 /
 
@@ -34,4 +42,9 @@ CREATE TABLE movies(
     FOREIGN KEY (entertainment_corporation_id)
     REFERENCES entertainment_corporations(corporation_id)
     ON DELETE CASCADE
+);
+
+CREATE TABLE differ_table_example(
+  table_id NUMBER NOT NULL PRIMARY KEY,
+  value NUMBER NOT NULL
 );
