@@ -62,3 +62,5 @@ CREATE TABLE table_only_from_dev_schema(
   table_id NUMBER NOT NULL PRIMARY KEY,
   value VARCHAR2(42) NOT NULL
 );
+
+create index index_for_table_which_is_only_in_dev on table_only_from_dev_schema(value);

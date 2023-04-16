@@ -72,3 +72,5 @@ CREATE TABLE table2 (
 
 ALTER TABLE table1 ADD CONSTRAINT fk_to_table2 FOREIGN KEY(reference_to_table2) REFERENCES table2(table2_id);
 ALTER TABLE table2 ADD CONSTRAINT fk_to_table1 FOREIGN KEY(reference_to_table1) REFERENCES table1(table1_id);
+
+create index index_for_table1_which_is_only_in_prod on table1(field1);
