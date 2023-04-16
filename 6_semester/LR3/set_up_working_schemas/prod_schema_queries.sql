@@ -48,3 +48,27 @@ CREATE TABLE differ_table_example(
   table_id NUMBER NOT NULL PRIMARY KEY,
   value NUMBER NOT NULL
 );
+
+
+ALTER TABLE table1 DROP COLUMN reference_to_table2;
+ALTER TABLE table2 DROP COLUMN reference_to_table1;
+
+
+DROP TABLE table1;
+DROP TABLE table2;
+
+CREATE TABLE table1 (
+    table1_id INTEGER NOT NULL PRIMARY KEY,
+    field1 VARCHAR(50),
+    reference_to_table2 INTEGER 
+);
+
+CREATE TABLE table2 (
+    table2_id INTEGER NOT NULL PRIMARY KEY,
+    field2 VARCHAR(50),
+    reference_to_table1 INTEGER 
+);
+
+
+ALTER TABLE table1 ADD CONSTRAINT fk_to_table2 FOREIGN KEY(reference_to_table2) REFERENCES table2(table2_id);
+ALTER TABLE table2 ADD CONSTRAINT fk_to_table1 FOREIGN KEY(reference_to_table1) REFERENCES table1(table1_id);

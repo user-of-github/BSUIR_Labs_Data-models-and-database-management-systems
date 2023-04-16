@@ -7,8 +7,8 @@ ___
     * `create_schemas.sql`  
     * `dev_schema_queries.sql`   
     * `prod_schema_queries.sql`  
-* _Create utils by executing [utils.sql](./comparison_functions/utils.sql)_  
-* _Create comparison (and other) functions, that are used in main scripts `task1`, `task1` ..._  
+* _Create utils by executing [./functionality/utils.sql](./functionality/utils.sql)_  
+* _Create comparison (and other) functions from `functionality` folder, that are used in main scripts `task1`, `task1` ..._  
 * _Now you can run `task1`, `task2` .. and check out results_  
 ___
 
