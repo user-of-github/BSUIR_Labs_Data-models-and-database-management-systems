@@ -6,6 +6,7 @@ BEGIN
     
     
     compare_schemas_by_indexes(schema_1_name, schema_2_name);
+    compare_schemas_by_functions('FUNCTION', schema_1_name, schema_2_name);
 END;
 
 /
