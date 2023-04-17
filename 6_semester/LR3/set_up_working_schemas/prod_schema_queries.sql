@@ -25,6 +25,15 @@ EXCEPTION
       RAISE;
     END IF;
 END;
+/
+BEGIN
+  EXECUTE IMMEDIATE 'DROP INDEX index_for_table1_which_is_only_in_prod';
+EXCEPTION
+  WHEN OTHERS THEN
+    IF SQLCODE != -942 THEN
+      RAISE;
+    END IF;
+END;
 -- create tables
 /
 
@@ -73,4 +82,24 @@ CREATE TABLE table2 (
 ALTER TABLE table1 ADD CONSTRAINT fk_to_table2 FOREIGN KEY(reference_to_table2) REFERENCES table2(table2_id);
 ALTER TABLE table2 ADD CONSTRAINT fk_to_table1 FOREIGN KEY(reference_to_table1) REFERENCES table1(table1_id);
 
-create index index_for_table1_which_is_only_in_prod on table1(field1);
+
+DROP INDEX index_for_table1_which_is_only_in_prod;
+CREATE INDEX index_for_table1_which_is_only_in_prod on table1(field1);
+
+/
+
+CREATE OR REPLACE FUNCTION test_function
+RETURN BOOLEAN
+IS
+BEGIN
+  RETURN false;
+END;
+
+/
+
+CREATE OR REPLACE FUNCTION test_function_only_in_prod
+RETURN BOOLEAN
+IS
+BEGIN
+  RETURN false;
+END;
