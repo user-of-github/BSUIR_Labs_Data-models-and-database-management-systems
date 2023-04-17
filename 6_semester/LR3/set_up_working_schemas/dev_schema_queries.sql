@@ -73,3 +73,13 @@ BEGIN
   RETURN false;
 END;
 
+CREATE OR REPLACE PROCEDURE test_proc_from_dev
+AS
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('Empty procedure');
+END;
+
+
+CREATE OR REPLACE PACKAGE package_from_dev AS
+   PROCEDURE test_proc_from_dev;
+END package_from_dev;

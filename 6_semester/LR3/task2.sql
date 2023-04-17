@@ -6,7 +6,10 @@ BEGIN
     
     
     compare_schemas_by_indexes(schema_1_name, schema_2_name);
+     DBMS_OUTPUT.PUT_LINE(chr(10)); -- just empty line :)
     compare_schemas_by_functions('FUNCTION', schema_1_name, schema_2_name);
+     DBMS_OUTPUT.PUT_LINE(chr(10)); -- just empty line :)
+    compare_schemas_by_packages(schema_1_name, schema_2_name);
 END;
 
 /
