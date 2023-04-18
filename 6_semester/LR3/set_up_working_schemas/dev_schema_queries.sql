@@ -65,21 +65,21 @@ CREATE TABLE table_only_from_dev_schema(
 
 CREATE INDEX index_for_table_which_is_only_in_dev ON table_only_from_dev_schema(value);
 
-
+/
 CREATE OR REPLACE FUNCTION test_function
 RETURN BOOLEAN
 IS
 BEGIN
   RETURN false;
 END;
-
+/
 CREATE OR REPLACE PROCEDURE test_proc_from_dev
 AS
 BEGIN
   DBMS_OUTPUT.PUT_LINE('Empty procedure');
 END;
-
-
-CREATE OR REPLACE PACKAGE package_from_dev AS
-   PROCEDURE test_proc_from_dev;
-END package_from_dev;
+/
+--DROP PACKAGE package_from_dev;
+--CREATE OR REPLACE PACKAGE package_from_dev AS
+--   PROCEDURE test_proc_from_dev;
+--END package_from_dev;
