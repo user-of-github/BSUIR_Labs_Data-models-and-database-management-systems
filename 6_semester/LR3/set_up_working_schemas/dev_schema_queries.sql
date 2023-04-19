@@ -83,3 +83,22 @@ END;
 --CREATE OR REPLACE PACKAGE package_from_dev AS
 --   PROCEDURE test_proc_from_dev;
 --END package_from_dev;
+
+
+CREATE TABLE t1(
+  id NUMBER NOT NULL PRIMARY KEY,
+  reference NUMBER
+);
+
+CREATE TABLE t2(
+  id NUMBER NOT NULL PRIMARY KEY,
+  reference NUMBER
+);
+
+CREATE TABLE t3(
+  id NUMBER NOT NULL PRIMARY KEY,
+  reference NUMBER
+);
+
+ALTER TABLE t2 ADD CONSTRAINT fk_to_t1 FOREIGN KEY(reference) REFERENCES t1(id);
+ALTER TABLE t1 ADD CONSTRAINT fk_to_t3 FOREIGN KEY(reference) REFERENCES t3(id);

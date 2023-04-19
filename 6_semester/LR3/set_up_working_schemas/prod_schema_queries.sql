@@ -120,7 +120,11 @@ CREATE TABLE differ_table_example(
 );
 
 
-
+CREATE TABLE table2 (
+    table2_id INTEGER NOT NULL PRIMARY KEY,
+    field2 VARCHAR(50),
+    reference_to_table1 INTEGER 
+);
 
 
 CREATE TABLE table1 (
@@ -129,11 +133,7 @@ CREATE TABLE table1 (
     reference_to_table2 INTEGER 
 );
 
-CREATE TABLE table2 (
-    table2_id INTEGER NOT NULL PRIMARY KEY,
-    field2 VARCHAR(50),
-    reference_to_table1 INTEGER 
-);
+
 
 
 -- EXECUTE THIS PACK THIRD
