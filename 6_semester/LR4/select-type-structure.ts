@@ -1,8 +1,12 @@
 
+interface InOrNotInSubQueryType {
+    columnName: string
+    subquerySelect: JsonSelectStructure
+}
 // что-то одно
 type WhereSingleConditionStructure =
-    { in?: JsonSelectStructure } |
-    { notIn: JsonSelectStructure } |
+    { in?: InOrNotInSubQueryType } |
+    { notIn: InOrNotInSubQueryType } |
     { exists: JsonSelectStructure } |
     { notExists: JsonSelectStructure } |
     { usualCondition: string }

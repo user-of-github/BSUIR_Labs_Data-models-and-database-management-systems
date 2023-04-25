@@ -15,7 +15,7 @@ BEGIN
     query_type := parsed_document.get_string(query_type_key);
     DBMS_OUTPUT.PUT_LINE('[parse_query] PARSING QUERY ' || query_type);
 
-    result_query := SYS.build_select_query(parsed_document);
+    result_query := build_select_query(parsed_document);
 
     
     IF should_execute = FALSE THEN 
@@ -30,10 +30,26 @@ END;
 DECLARE
     select_query VARCHAR2(4000) := '
     {
-        "queryType": "SELECT",
-        "columnsNames": ["*"],
-        "tablesNames": ["table1"]
-    }
+    "queryType": "SELECT",
+    "columnsNames": ["*"],
+    "tablesNames": ["table1"],
+    "where": [
+        {
+            "usualCondition": "col1 < 10",
+            "separator": "AND"
+        },
+        {
+            "usualCondition": "1 = 1",
+            "separator": "AND"
+        },
+        {
+            "in": {
+                "columnName": "col1",
+                "subquerySelect": {"queryType": "SELECT", "columnsNames": ["col1"], "tablesNames": [ "table2"]}
+            }
+        }
+    ]
+}
     ';
 BEGIN
     parse_and_execute_query(select_query, false);

@@ -1,0 +1,25 @@
+{
+    "queryType": "SELECT",
+    "columnsNames": ["*"],
+    "tablesNames": ["table1"],
+    "where": [
+        {
+            "usualCondition": "col1 < 10",
+            "separator": "AND"
+        },
+        {
+            "usualCondition": "1 = 1",
+            "separator": "AND"
+        },
+        {
+            "in": {
+                "columnName": "col1",
+                "subquerySelect": {
+                    "queryType": "SELECT",
+                    "columnsNames": ["col1"],
+                    "tablesNames": [ "table2"]
+                }
+            }
+        }
+    ]
+}
