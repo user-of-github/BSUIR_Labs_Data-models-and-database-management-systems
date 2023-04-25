@@ -1,14 +1,14 @@
 
-interface InOrNotInSubQueryType {
-    columnName: string
+interface InOrExistsSubQueryType {
+    columnName?: string
     subquerySelect: JsonSelectStructure
 }
 // что-то одно
 type WhereSingleConditionStructure =
-    { in?: InOrNotInSubQueryType } |
-    { notIn: InOrNotInSubQueryType } |
-    { exists: JsonSelectStructure } |
-    { notExists: JsonSelectStructure } |
+    { in?: InOrExistsSubQueryType } |
+    { notIn: InOrExistsSubQueryType } |
+    { exists: InOrExistsSubQueryType } |
+    { notExists: InOrExistsSubQueryType } |
     { usualCondition: string }
 
 

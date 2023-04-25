@@ -1,7 +1,7 @@
 {
     "queryType": "SELECT",
     "columnsNames": ["*"],
-    "tablesNames": ["table1"],
+    "tablesNames": ["table1" ],
     "where": [
         {
             "usualCondition": "col1 < 10",
@@ -14,11 +14,20 @@
         {
             "in": {
                 "columnName": "col1",
-                "subquerySelect": {
-                    "queryType": "SELECT",
-                    "columnsNames": ["col1"],
-                    "tablesNames": [ "table2"]
-                }
+                "subquerySelect": {"queryType": "SELECT","columnsNames": ["col1"],"tablesNames": ["table2"]}
+            },
+            "separator": "AND"
+        },
+        {
+            "notIn": {
+                "columnName": "col1",
+                "subquerySelect": {"queryType": "SELECT","columnsNames": ["col1"],"tablesNames": ["table2"]}
+            },
+            "separator": "OR"
+        },
+        {
+            "exists": {
+                "subquerySelect": {"queryType": "SELECT","columnsNames": [ "col1"],"tablesNames": ["table2"]}
             }
         }
     ]
