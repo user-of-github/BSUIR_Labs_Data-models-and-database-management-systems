@@ -1,5 +1,8 @@
 
--- MAIN FUNCTION BELOW 
+-- MAIN FUNCTION BELOW (entry point)
+-- Here in DECLARE --> query variable you can define some JSON with query
+-- and in main block (BEGIN - END) get its parsed command, execute it
+-- and get output for SELECT queries as well (In cursor-view due to lab task statements)
 DECLARE
     query VARCHAR2(4000) := '
 {
