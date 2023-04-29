@@ -1,68 +1,66 @@
 SET SQLBLANKLINES ON
 
+/
+CREATE OR REPLACE FUNCTION get_cursor_from_select_query(parsed_document IN JSON_OBJECT_T) 
+RETURN SYS_REFCURSOR
+IS
+    result_select_query VARCHAR2(4096) := NULL;
 
-CREATE OR REPLACE PROCEDURE parse_and_execute_query(json_sql_query IN NCLOB, should_execute IN BOOLEAN) 
-AS
-
-    parsed_document JSON_OBJECT_T := NULL;
-
-    result_query VARCHAR2(4096) := NULL;
+    result_cursor SYS_REFCURSOR := NULL;
 BEGIN
-    --DBMS_OUTPUT.PUT_LINE(json_sql_query);
-    parsed_document := JSON_OBJECT_T.parse(json_sql_query);
 
-    result_query := build_generic_query(parsed_document, 0);
+    result_select_query := build_generic_query(parsed_document);
 
-    
-    IF should_execute = FALSE THEN 
-        DBMS_OUTPUT.PUT_LINE(result_query);
-    ELSE
-        EXECUTE IMMEDIATE result_query;
-    END IF;
+    DBMS_OUTPUT.PUT_LINE('[get_cursor_from_select_query]: ' || result_select_query);
+
+    OPEN result_cursor FOR result_select_query;
+
+    RETURN result_cursor;
 END;
 
 /
 
 DECLARE
-    select_query VARCHAR2(4000) := '
+    query VARCHAR2(4000) := '
 {
     "queryType": "SELECT",
-    "columnsNames": [ "*"],
-    "tablesNames": ["table1" ],
+    "columnsNames": ["*"],
+    "tablesNames": ["table1"],
     "where": [
         {
-            "usualCondition": "col1 < 10",
+            "usualCondition": "col1 > 2",
             "separator": "AND"
         },
         {
-            "usualCondition": "1 = 1",
-            "separator": "AND"
-        },
-        {
-            "in": {
-                "columnName": "col1",
-                "subquerySelect": {"queryType": "SELECT","columnsNames": ["col1"],"tablesNames": ["table2"]}
-            },
-            "separator": "AND"
-        },
-        {
-            "notIn": {
-                "columnName": "col1",
-                "subquerySelect": {"queryType": "SELECT","columnsNames": ["col1"],"tablesNames": ["table2"]}
-            },
-            "separator": "OR"
-        },
-        {
-            "exists": {
-                "subquerySelect": {"queryType": "SELECT","columnsNames": [ "col1"],"tablesNames": ["table2"]}
-            }
+            "usualCondition": "col1 < 5"
         }
     ]
 }
-    ';
-BEGIN
-    parse_and_execute_query(select_query, false);
-END;
+';
 
+    parsed_document JSON_OBJECT_T := NULL;
+    
+    result_response_query_string VARCHAR2(4096) := NULL;
+    response_for_select_query_cursor SYS_REFCURSOR := null;
+
+    -- SAME COLUMNS AS IN QUERY !!! (TO DEMONSTRATE)
+    id_temp table1.id%TYPE := NULL;
+    col1_temp table1.col1%TYPE := NULL;
+    col2_temp table1.col2%TYPE := NULL;
+BEGIN
+    parsed_document := JSON_OBJECT_T.parse(query); 
+
+    --result_response_query_string := build_generic_query(parsed_document);
+    response_for_select_query_cursor := get_cursor_from_select_query(parsed_document);
+    DBMS_OUTPUT.PUT_LINE(' ');
+    DBMS_OUTPUT.PUT_LINE('[main] PRINTING VALUES FROM CURSOR FROM SELECT QUERY');
+    LOOP
+        FETCH response_for_select_query_cursor INTO id_temp, col1_temp, col2_temp;
+        EXIT WHEN response_for_select_query_cursor%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('  ROW:  ( ' || id_temp || ' , ' || col1_temp || ' , ' || col2_temp || ' )');
+    END LOOP;
+
+    CLOSE response_for_select_query_cursor;
+END;
 
 /

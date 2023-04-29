@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION build_select_query(parsed_json_object IN JSON_OBJECT_T, counter IN NUMBER)
+CREATE OR REPLACE FUNCTION build_select_query(parsed_json_object IN JSON_OBJECT_T)
 RETURN VARCHAR2
 IS
     response VARCHAR(4096) := '';
@@ -61,22 +61,22 @@ BEGIN
                 ELSIF where_statement.HAS(in_condition_key) THEN
                     sub_query_object := TREAT(where_statement.GET(in_condition_key) AS JSON_OBJECT_T);
                     response := response || sub_query_object.GET_STRING(sub_query_column_name_key) || ' IN (';
-                    response := response || build_select_query(TREAT(sub_query_object.GET(sub_query_select_key) AS JSON_OBJECT_T), 1);
+                    response := response || build_select_query(TREAT(sub_query_object.GET(sub_query_select_key) AS JSON_OBJECT_T));
                     response := response || ')';
                 ELSIF where_statement.HAS(not_in_condition_key) THEN
                     sub_query_object := TREAT(where_statement.GET(not_in_condition_key) AS JSON_OBJECT_T);
                     response := response || sub_query_object.GET_STRING(sub_query_column_name_key) || ' NOT IN (';
-                    response := response || build_select_query(TREAT(sub_query_object.GET(sub_query_select_key) AS JSON_OBJECT_T), 1);
+                    response := response || build_select_query(TREAT(sub_query_object.GET(sub_query_select_key) AS JSON_OBJECT_T));
                     response := response || ')';
                 ELSIF where_statement.HAS(exists_condition_key) THEN
                     sub_query_object := TREAT(where_statement.GET(exists_condition_key) AS JSON_OBJECT_T);
                     response := response || ' EXISTS (';
-                    response := response || build_select_query(TREAT(sub_query_object.GET(sub_query_select_key) AS JSON_OBJECT_T), 1);
+                    response := response || build_select_query(TREAT(sub_query_object.GET(sub_query_select_key) AS JSON_OBJECT_T));
                     response := response || ')';
                 ELSIF where_statement.HAS(not_exists_condition_key) THEN
                     sub_query_object := TREAT(where_statement.GET(not_exists_condition_key) AS JSON_OBJECT_T);
                     response := response || ' NOT EXISTS (';
-                    response := response || build_select_query(TREAT(sub_query_object.GET(sub_query_select_key) AS JSON_OBJECT_T), 1);
+                    response := response || build_select_query(TREAT(sub_query_object.GET(sub_query_select_key) AS JSON_OBJECT_T));
                     response := response || ')';
                 END IF;
 
@@ -180,7 +180,7 @@ BEGIN
             response := response || sub_query_object.GET_STRING(sub_query_column_name_key) || ' IN (';
             sub_query_query := TREAT(sub_query_object.GET(sub_query_select_key) AS JSON_OBJECT_T);
             response := response || '';
-            subquery_built := build_select_query(sub_query_query, 1);
+            subquery_built := build_select_query(sub_query_query);
             DBMS_OUTPUT.PUT_LINE(sub_query_query.GET_STRING('queryType'));
             DBMS_OUTPUT.PUT_LINE(sub_query_query.GET_STRING('queryType'));
             
