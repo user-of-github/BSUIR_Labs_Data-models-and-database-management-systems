@@ -4,10 +4,19 @@ ___
 ### _My types structure:_  
 
 #### _SELECT_  
-![](./select-type-structure.PNG)  
+![](./types-descriptions/select-type-structure.PNG)  
 
 
 #### _INSERT_  
-![](./insert-type-structure.PNG)
+![](./types-descriptions/insert-type-structure.PNG)  
+
+#### _UPDATE_  
+![](./types-descriptions/update-type-structure.PNG)  
+
+#### _DELETE_  
+![](./types-descriptions/delete-type-structure.PNG)  
+
+
+
 ___
 ###### Copyright © 2023 April

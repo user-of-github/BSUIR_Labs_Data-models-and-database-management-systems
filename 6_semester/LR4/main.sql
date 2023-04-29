@@ -3,10 +3,13 @@
 DECLARE
     query VARCHAR2(4000) := '
 {
-    "queryType": "INSERT",
-    "intoTable": "table1", 
-    "columns": ["id", "col1", "col2"],
-    "value": "11, 11, 11"
+    "queryType": "UPDATE",
+    "tableName": "table1",
+    "setValues": ["col1 = 10", "col2 = 100"],
+    "where": [
+        { "usualCondition": "col1 > 2", "separator": "AND" },
+        { "usualCondition": "col1 < 5", "separator": "AND" }
+    ]
 }
 ';
 
