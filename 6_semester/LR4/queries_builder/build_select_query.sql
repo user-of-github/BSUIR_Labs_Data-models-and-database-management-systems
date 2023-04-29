@@ -80,7 +80,7 @@ BEGIN
                     response := response || ')';
                 END IF;
 
-                IF where_statement.HAS(separator_key) THEN
+                IF where_statement.HAS(separator_key) AND where_statement_number != where_statements_count-1 THEN
                     response := response || ' ' || where_statement.GET_STRING(separator_key);
                 END IF;
 
@@ -146,6 +146,7 @@ END;
 
 /
 
+-- NOT USED // due to looped function calls - moved this logic directly to build_select_query as inline code
 CREATE OR REPLACE FUNCTION build_where_sequence_row(where_statements IN JSON_ARRAY_T)
 RETURN VARCHAR2
 IS

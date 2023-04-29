@@ -32,7 +32,8 @@ DECLARE
             "separator": "AND"
         },
         {
-            "usualCondition": "col1 < 5"
+            "usualCondition": "col1 < 5",
+             "separator": "AND"
         }
     ]
 }
