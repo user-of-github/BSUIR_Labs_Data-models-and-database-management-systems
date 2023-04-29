@@ -5,7 +5,6 @@ IS
 
     -- TABLE VARS
     query_table_key CONSTANT VARCHAR2(100) := 'tableName';
-    query_table VARCHAR2(100) := NULL;
     
     -- WHERE VARS
     query_where_key CONSTANT VARCHAR(100) := 'where';
@@ -31,8 +30,7 @@ BEGIN
 
     -- TABLE
     response := response || 'FROM ';
-    query_table := parsed_json_object.GET_STRING(query_table_key);
-    response := response || query_table;
+    response := response || parsed_json_object.GET_STRING(query_table_key);
 
 
     -- WHERE STATEMENTS // unable to put to separate function -- so coded here inline generating WHERE row

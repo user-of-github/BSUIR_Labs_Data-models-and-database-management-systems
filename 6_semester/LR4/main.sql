@@ -3,27 +3,27 @@
 DECLARE
     query VARCHAR2(4000) := '
 {
-    "queryType": "SELECT",
-    "columnsNames": ["table1.id, table1.col1, table1.col2"],
-    "tablesNames": ["table1" ],
-    "where": [
-        {
-            "usualCondition": "col1 < 10",
-            "separator": "AND"
-        },
-        {
-            "usualCondition": "1 = 1",
-            "separator": "AND"
-        },
-        {
-            "in": {
-                "columnName": "col1",
-                "subquerySelect": {"queryType": "SELECT","columnsNames": ["col1"],"tablesNames": ["table2"]}
-            },
-            "separator": "OR"
+            "queryType": "SELECT",
+            "columnsNames": ["table1.id", "table1.col1", "table1.col2"],
+            "tablesNames": ["table1" ],
+            "where": [
+                {
+                    "usualCondition": "col1 < 10",
+                    "separator": "AND"
+                },
+                {
+                    "usualCondition": "1 = 1",
+                    "separator": "AND"
+                },
+                {
+                    "notIn": {
+                        "columnName": "col1",
+                        "subquerySelect": {"queryType": "SELECT","columnsNames": ["col1"],"tablesNames": ["table2"]}
+                    },
+                    "separator": "OR"
+                }
+            ]
         }
-    ]
-}
 ';
 
     parsed_document JSON_OBJECT_T := NULL;
