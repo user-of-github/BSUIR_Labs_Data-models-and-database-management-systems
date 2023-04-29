@@ -1,0 +1,110 @@
+[
+    [
+        {
+            "queryType": "CREATE",
+            "tableName": "table1",
+            "fields": ["id NUMBER NOT NULL PRIMARY KEY", "col1 NUMBER NOT NULL", "col2 NUMBER NOT NULL"]
+        },
+        {
+            "queryType": "CREATE",
+            "tableName": "table2",
+            "fields": [ "id NUMBER NOT NULL PRIMARY KEY", "col1 NUMBER NOT NULL", "col2 NUMBER NOT NULL"]
+        },
+        {
+            "queryType": "CREATE",
+            "tableName": "table3",
+            "fields": [ "id NUMBER NOT NULL PRIMARY KEY", "col NUMBER NOT NULL", "name VARCHAR2(100) NOT NULL" ]
+        }
+    ],
+
+
+    [
+        {
+            "queryType": "INSERT", "intoTable": "table1", "columns": ["id","col1","col2"], "value": "1, 1, 1"
+        },
+        {
+            "queryType": "INSERT", "intoTable": "table1", "columns": ["id", "col1", "col2"], "value": "2, 2, 2"
+        },
+        {
+            "queryType": "INSERT", "intoTable": "table1", "columns": ["id", "col1","col2"], "value": "3, 3, 3"
+        },
+        {
+            "queryType": "INSERT", "intoTable": "table1", "columns": ["id", "col1", "col2"], "value": "4, 4, 4"
+        },
+        {
+            "queryType": "INSERT", "intoTable": "table1", "columns": ["id", "col1", "col2"], "value": "5, 5, 5"
+        },
+
+        {
+            "queryType": "INSERT", "intoTable": "table2", "columns": ["id","col1", "col2"], "value": "1, 1, 1"
+        },
+        {
+            "queryType": "INSERT", "intoTable": "table2", "columns": ["id", "col1", "col2"], "value": "2, 2, 2"
+        },
+        {
+            "queryType": "INSERT", "intoTable": "table2", "columns": ["id", "col1", "col2"], "value": "3, 3, 3"
+        },
+        {
+            "queryType": "INSERT", "intoTable": "table2", "columns": ["id", "col1", "col2"], "value": "4, 4, 4"
+        },
+
+        {
+            "queryType": "INSERT", "intoTable": "table3", "columns": ["id", "col", "name"], "value": "1, 1, ''Name1''"
+        },
+        {
+            "queryType": "INSERT", "intoTable": "table3", "columns": ["id", "col", "name"], "value": "2, 2, ''Name2''"
+        },
+        {
+            "queryType": "INSERT", "intoTable": "table3", "columns": ["id", "col", "name"], "value": "3, 3, ''Name3''"
+        },
+        {
+            "queryType": "INSERT", "intoTable": "table3", "columns": ["id", "col", "name"], "value": "4, 4, ''Name4''"
+        },
+        {
+            "queryType": "INSERT", "intoTable": "table3", "columns": ["id", "col", "name"], "value": "5, 5, ''Name4''"
+        }
+    ],
+
+    [
+        {
+            "queryType": "SELECT",
+            "columnsNames": ["table1.id", "table1.col1", "table1.col2", "table3.name"],
+            "tablesNames": ["table1"],
+            "where": [
+                { "usualCondition": "col1 > 2", "separator": "AND" },
+                { "usualCondition": "col1 < 5", "separator": "AND" }
+            ],
+            "join": [
+                {"joinType": "INNER JOIN", "joinTable": "table3", "onCondition": "table1.col1 = table3.col"}
+            ]
+        },
+        {
+            "queryType": "SELECT",
+            "columnsNames": ["table1.id", "table1.col1", "table1.col2", "table3.name"],
+            "tablesNames": ["table1"],
+            "where": [
+                { "usualCondition": "col1 > 2", "separator": "AND" },
+                { "usualCondition": "col1 < 5", "separator": "AND" }
+            ],
+            "join": [
+                {"joinType": "INNER JOIN", "joinTable": "table3", "onCondition": "table1.col1 = table3.col"}
+            ]
+        }
+    ],
+
+
+    [
+        {
+            "queryType": "DROP",
+            "tableName": "table1"
+        },
+        {
+            "queryType": "DROP",
+            "tableName": "table2"
+        },
+        {
+            "queryType": "DROP",
+            "tableName": "table3"
+        }
+    ]
+]
