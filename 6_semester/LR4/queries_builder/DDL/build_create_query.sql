@@ -21,5 +21,25 @@ BEGIN
 
     response := response || ')';
 
+    DBMS_OUTPUT.PUT_LINE(CHR(10) || '[build_create_table_query] TRIGGER FOR TABLE: ');
+    DBMS_OUTPUT.PUT_LINE(build_auto_incrementing_trigger_for_created_table(parsed_json_object.GET_STRING(query_table_name_key)));
+    DBMS_OUTPUT.PUT_LINE(CHR(10));
+    
     RETURN response;    
+END;
+
+/
+
+CREATE OR REPLACE FUNCTION build_auto_incrementing_trigger_for_created_table(table_name IN VARCHAR2)
+RETURN VARCHAR2
+IS
+    sequence_name VARCHAR2(100) := '';
+    response VARCHAR2(2000) := '';
+BEGIN
+    sequence_name := 'sequence_for_' || table_name;
+    response := response || 'CREATE SEQUENCE ' || sequence_name || ';' || CHR(10);
+    response := response || 'CREATE OR REPLACE TRIGGER ' || table_name || '_trigger_auto_index_inc BEFORE INSERT ON ' || table_name || ' FOR EACH ROW ' || CHR(10);
+    response := response || 'BEGIN' || CHR(10) || ':new.id = ' || sequence_name || '.NEXTVAL;' || CHR(10) || 'END;';
+
+    RETURN response;
 END;
