@@ -155,60 +155,6 @@ BEGIN
     RETURN response;
 END;
 
-/
-
--- NOT USED // due to looped function calls - moved this logic directly to build_select_query as inline code
-CREATE OR REPLACE FUNCTION build_where_sequence_row(where_statements IN JSON_ARRAY_T)
-RETURN VARCHAR2
-IS
-    usual_condition_key CONSTANT VARCHAR2(100) := 'usualCondition';
-    in_condition_key CONSTANT VARCHAR2(100) := 'in';
-    separator_key CONSTANT VARCHAR2(100) := 'separator';
-    sub_query_column_name_key CONSTANT VARCHAR2(100) := 'columnName';
-    sub_query_select_key CONSTANT VARCHAR2(100) := 'subquerySelect';
-
-    where_statements_count NUMBER := NULL;
-    where_statement JSON_OBJECT_T := NULL;
-    sub_query_object JSON_OBJECT_T := NULL;
-    sub_query_query JSON_OBJECT_T := NULL;
-    response VARCHAR2(4096) := '';
-    subquery_built VARCHAR2(2000) := '';
-BEGIN
-    where_statements_count := where_statements.GET_SIZE;
-
-    IF where_statements_count > 0 THEN
-        response := response || 'WHERE ';
-    ELSE
-        RETURN response;
-    END IF;
-
-    FOR where_statement_number IN 0..where_statements_count-1 LOOP
-        where_statement := TREAT(where_statements.GET(where_statement_number) AS JSON_OBJECT_T);
-
-        IF where_statement.HAS(usual_condition_key) THEN
-            response := response || where_statement.GET_STRING(usual_condition_key);
-        ELSIF where_statement.HAS(in_condition_key) THEN
-            sub_query_object := TREAT(where_statement.GET(in_condition_key) AS JSON_OBJECT_T);
-            response := response || sub_query_object.GET_STRING(sub_query_column_name_key) || ' IN (';
-            sub_query_query := TREAT(sub_query_object.GET(sub_query_select_key) AS JSON_OBJECT_T);
-            response := response || '';
-            subquery_built := build_select_query(sub_query_query);
-            DBMS_OUTPUT.PUT_LINE(sub_query_query.GET_STRING('queryType'));
-            DBMS_OUTPUT.PUT_LINE(sub_query_query.GET_STRING('queryType'));
-            
-            response := response || ')';
-       END IF;
-
-       IF where_statement.HAS(separator_key) THEN
-           response := response || ' ' || where_statement.GET_STRING(separator_key);
-       END IF;
-
-        response := response || ' ';
-    END LOOP;
-
-    RETURN response;
-END;
-
 
 /
 
@@ -242,4 +188,30 @@ BEGIN
     END LOOP;
 
     RETURN response;
+END;
+
+
+
+/
+
+
+
+SET SQLBLANKLINES ON
+
+/
+CREATE OR REPLACE FUNCTION get_cursor_from_select_query(parsed_document IN JSON_OBJECT_T) 
+RETURN SYS_REFCURSOR
+IS
+    result_select_query VARCHAR2(4096) := NULL;
+
+    result_cursor SYS_REFCURSOR := NULL;
+BEGIN
+
+    result_select_query := build_generic_query(parsed_document);
+
+    DBMS_OUTPUT.PUT_LINE('[get_cursor_from_select_query]: ' || result_select_query);
+
+    OPEN result_cursor FOR result_select_query;
+
+    RETURN result_cursor;
 END;

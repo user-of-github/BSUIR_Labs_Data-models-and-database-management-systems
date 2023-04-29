@@ -14,6 +14,8 @@ BEGIN
 
     IF query_type = 'SELECT' THEN
         response := response || build_select_query(parsed_json_object);
+    ELSIF query_type = 'INSERT' THEN
+        response := build_insert_query(parsed_json_object);
     END IF;
 
     

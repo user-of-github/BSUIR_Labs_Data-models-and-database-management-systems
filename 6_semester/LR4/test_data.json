@@ -1,3 +1,17 @@
+[
+{
+    "queryType": "SELECT",
+    "columnsNames": ["table1.id", "table1.col1", "table1.col2", "table3.name"],
+    "tablesNames": ["table1"],
+    "where": [
+        { "usualCondition": "col1 > 2", "separator": "AND" },
+        { "usualCondition": "col1 < 5", "separator": "AND" }
+    ],
+    "join": [
+        {"joinType": "INNER JOIN", "joinTable": "table3", "onCondition": "table1.col1 = table3.col"}
+    ]
+},
+
 {
     "queryType": "SELECT",
     "columnsNames": ["*"],
@@ -31,4 +45,12 @@
             }
         }
     ]
+},
+{
+    "queryType": "INSERT",
+    "intoTable": "table1", 
+    "columns": ["id", "col1", "col2"],
+    "value": "10, 10, 10"
 }
+
+]
