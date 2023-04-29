@@ -70,5 +70,16 @@
         { "usualCondition": "col1 > 2", "separator": "AND" },
         { "usualCondition": "col1 < 5", "separator": "AND" }
     ]
+},
+
+{
+    "queryType": "CREATE",
+    "tableName": "table1",
+    "fields": ["id NUMBER NOT NULL PRIMARY KEY", "col1 VARCHAR2(100) NOT NULL", "col2 VARCHAR2(100) NOT NULL"]
+},
+
+{
+    "queryType": "DROP",
+    "tableName": "table1"
 }
 ]

@@ -20,6 +20,10 @@ BEGIN
         response := build_delete_query(parsed_json_object);
     ELSIF query_type = 'UPDATE' THEN
         response := build_update_query(parsed_json_object);
+    ELSIF query_type = 'DROP' THEN
+        response := build_drop_table_query(parsed_json_object);
+    ELSIF query_type = 'CREATE' THEN
+        response := build_create_table_query(parsed_json_object);
     END IF;
 
     

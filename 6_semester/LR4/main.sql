@@ -3,13 +3,9 @@
 DECLARE
     query VARCHAR2(4000) := '
 {
-    "queryType": "UPDATE",
+    "queryType": "CREATE",
     "tableName": "table1",
-    "setValues": ["col1 = 10", "col2 = 100"],
-    "where": [
-        { "usualCondition": "col1 > 2", "separator": "AND" },
-        { "usualCondition": "col1 < 5", "separator": "AND" }
-    ]
+    "fields": ["id NUMBER NOT NULL PRIMARY KEY", "col1 VARCHAR2(100) NOT NULL", "col2 VARCHAR2(100) NOT NULL"]
 }
 ';
 
