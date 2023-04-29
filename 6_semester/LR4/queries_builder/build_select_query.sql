@@ -29,6 +29,10 @@ IS
     where_statement JSON_OBJECT_T := NULL;
     sub_query_object JSON_OBJECT_T := NULL;
 
+    -- JOIN VARS
+    query_join_key CONSTANT VARCHAR(100) := 'join';
+    joins_array JSON_ARRAY_T := NULL;
+
 BEGIN
 
     response := response || 'SELECT ';
@@ -43,8 +47,14 @@ BEGIN
     query_tables := parsed_json_object.GET_ARRAY(query_tables_key);
     response := response || build_tables_sequence_row(query_tables);
 
+     -- JOINS
+    IF parsed_json_object.HAS(query_join_key) THEN
+        joins_array := parsed_json_object.GET_ARRAY(query_join_key);
+        response := response || build_joins_row(joins_array);
+    END IF;
 
-    -- WHERE STATEMENTS
+
+    -- WHERE STATEMENTS // unable to put to separate function -- so coded here inline generating WHERE row
     IF parsed_json_object.HAS(query_where_key) THEN
         query_where_statements := parsed_json_object.GET_ARRAY(query_where_key);
         
@@ -88,6 +98,7 @@ BEGIN
             END LOOP;
         END IF;
     END IF;
+
 
     RETURN response;
 END;
@@ -198,3 +209,37 @@ BEGIN
     RETURN response;
 END;
 
+
+/
+
+CREATE OR REPLACE FUNCTION build_joins_row(joins_array IN JSON_ARRAY_T)
+RETURN VARCHAR2
+IS
+    joins_count NUMBER := NULL;
+    single_join_object JSON_OBJECT_T := NULL;
+
+    join_type_key CONSTANT VARCHAR2(100) := 'joinType';
+    join_type VARCHAR2(100) := NULL;
+
+    join_table_key CONSTANT VARCHAR2(100) := 'joinTable';
+    join_table VARCHAR2(100) := NULL;
+
+    join_codition_key CONSTANT VARCHAR2(100) := 'onCondition';
+    join_condition VARCHAR2(100) := NULL;
+
+    response VARCHAR2(4096) := '';
+BEGIN
+    joins_count := joins_array.GET_SIZE;
+
+    FOR join_number IN 0..joins_count-1 LOOP
+        single_join_object := TREAT(joins_array.GET(join_number) AS JSON_OBJECT_T);
+
+        join_type := single_join_object.GET_STRING(join_type_key);
+        join_table := single_join_object.GET_STRING(join_table_key);
+        join_condition := single_join_object.GET_STRING(join_codition_key);
+
+        response := response || ' ' || join_type || ' ' || join_table || ' ON ' || join_condition || ' ';
+    END LOOP;
+
+    RETURN response;
+END;
