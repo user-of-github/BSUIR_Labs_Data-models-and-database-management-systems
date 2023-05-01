@@ -6,4 +6,4 @@ END;
 
 /
 
-SELECT TO_CHAR(time_stamp, 'YYYY-MM-DD HH24:MI:SS') FROM JOURNAL_cinematic_universes;
+SELECT * FROM journal_movies;

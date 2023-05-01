@@ -20,10 +20,10 @@ BEGIN
             COMMIT; -- without commit caused error !
         
         WHEN updating THEN
-             INSERT INTO journal_entertainment_corporations (operation, time_stamp, id, title, ceo)
-             VALUES ('UPDATE', CURRENT_TIMESTAMP, :OLD.id, :OLD.title, :OLD.ceo);      
+            INSERT INTO journal_entertainment_corporations (operation, time_stamp, id, title, ceo)
+            VALUES ('UPDATE', CURRENT_TIMESTAMP, :OLD.id, :OLD.title, :OLD.ceo);      
 
-             COMMIT; -- without commit caused error !   
+            COMMIT; -- without commit caused error !   
         
         WHEN deleting THEN
            INSERT INTO journal_entertainment_corporations (operation, time_stamp, id, title, ceo)
@@ -74,14 +74,20 @@ BEGIN
         WHEN inserting THEN
             INSERT INTO journal_movies (operation, time_stamp, id, title, release_date, cinematic_universe)
             VALUES ('INSERT', CURRENT_TIMESTAMP, :NEW.id, :NEW.title,:NEW.release_date, :NEW.cinematic_universe);
-        
+
+            COMMIT;
+            
         WHEN updating THEN
-             INSERT INTO journal_movies (operation, time_stamp, id, title, release_date, cinematic_universe)
-             VALUES ('UPDATE', CURRENT_TIMESTAMP, :OLD.id, :OLD.title,:OLD.release_date, :OLD.cinematic_universe);         
-        
+            INSERT INTO journal_movies (operation, time_stamp, id, title, release_date, cinematic_universe)
+            VALUES ('UPDATE', CURRENT_TIMESTAMP, :OLD.id, :OLD.title,:OLD.release_date, :OLD.cinematic_universe);         
+
+            COMMIT;
+
         WHEN deleting THEN
-           INSERT INTO journal_movies (operation, time_stamp, id, title, release_date, cinematic_universe)
-           VALUES ('DELETE', CURRENT_TIMESTAMP, :OLD.id, :OLD.title,:OLD.release_date, :OLD.cinematic_universe);
-    
+            INSERT INTO journal_movies (operation, time_stamp, id, title, release_date, cinematic_universe)
+            VALUES ('DELETE', CURRENT_TIMESTAMP, :OLD.id, :OLD.title,:OLD.release_date, :OLD.cinematic_universe);
+
+            COMMIT;
+
     END CASE;
 END;
