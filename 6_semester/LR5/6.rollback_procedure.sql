@@ -65,7 +65,7 @@ END;
 
 /
 
-CREATE OR REPLACE PROCEDURE rollback_all_tables(time_stamp TIMESTAMP)
+CREATE OR REPLACE PROCEDURE rollback_all_tables(time_stamp TIMESTAMP, perfrom_rollback IN BOOLEAN) -- if perfrom_rollback is FALSE then it will just print commands without executing
 AS
 BEGIN
     EXECUTE IMMEDIATE 'TRUNCATE TABLE rollback_scripts';
@@ -76,10 +76,15 @@ BEGIN
 
     FOR	script_row in (SELECT id_of_operation, script FROM rollback_scripts ORDER BY operation_time DESC) LOOP
         DBMS_OUTPUT.PUT_LINE('[rollback_all_tables]: ' || script_row.script);
+        IF perfrom_rollback = TRUE THEN 
+            EXECUTE IMMEDIATE script_row.script;
+        END IF;
     END LOOP;
 
-    -- TODO TEST
-    --EXECUTE IMMEDIATE 'UPDATE journal_entertainment_corporations SET is_reverted = 1 WHERE operation_id IN (SELECT id_of_operation FROM rollback_scripts)';
-    --EXECUTE IMMEDIATE 'UPDATE journal_cinematic_universes SET is_reverted = 1 WHERE operation_id IN (SELECT id_of_operation FROM rollback_scripts)';
-    --EXECUTE IMMEDIATE 'UPDATE journal_movies SET is_reverted = 1 WHERE operation_id IN (SELECT id_of_operation FROM rollback_scripts)';
+    IF perfrom_rollback = TRUE THEN
+        DBMS_OUTPUT.PUT_LINE('[rollback_all_tables] Updating journals'' is_reverted status ...');
+        --EXECUTE IMMEDIATE 'UPDATE journal_entertainment_corporations SET is_reverted = 1 WHERE operation_id IN (SELECT id_of_operation FROM rollback_scripts)';
+        --EXECUTE IMMEDIATE 'UPDATE journal_cinematic_universes SET is_reverted = 1 WHERE operation_id IN (SELECT id_of_operation FROM rollback_scripts)';
+        --EXECUTE IMMEDIATE 'UPDATE journal_movies SET is_reverted = 1 WHERE operation_id IN (SELECT id_of_operation FROM rollback_scripts)';
+    END IF;
 END;
