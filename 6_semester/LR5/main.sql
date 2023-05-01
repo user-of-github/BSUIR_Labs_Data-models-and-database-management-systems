@@ -12,4 +12,4 @@ END;
 
 /
 
-SELECT TO_DATE(TO_CHAR(RELEASE_DATE)) FROM movies;
+SELECT * FROM journal_movies;
