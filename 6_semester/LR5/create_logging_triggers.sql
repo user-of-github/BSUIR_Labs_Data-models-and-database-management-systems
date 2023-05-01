@@ -14,20 +14,20 @@ DECLARE
 BEGIN
     CASE
         WHEN inserting THEN
-            INSERT INTO journal_entertainment_corporations (operation, time_stamp, id, title, ceo)
-            VALUES ('INSERT', CURRENT_TIMESTAMP, :NEW.id, :NEW.title, :NEW.ceo);
+            INSERT INTO journal_entertainment_corporations (operation, time_stamp, is_reverted, id, title, ceo)
+            VALUES ('INSERT', CURRENT_TIMESTAMP, 0, :NEW.id, :NEW.title, :NEW.ceo);
 
             COMMIT; -- without commit caused error !
         
         WHEN updating THEN
-            INSERT INTO journal_entertainment_corporations (operation, time_stamp, id, title, ceo)
-            VALUES ('UPDATE', CURRENT_TIMESTAMP, :OLD.id, :OLD.title, :OLD.ceo);      
+            INSERT INTO journal_entertainment_corporations (operation, time_stamp, is_reverted, id, title, ceo)
+            VALUES ('UPDATE', CURRENT_TIMESTAMP, 0, :OLD.id, :OLD.title, :OLD.ceo);      
 
             COMMIT; -- without commit caused error !   
         
         WHEN deleting THEN
-           INSERT INTO journal_entertainment_corporations (operation, time_stamp, id, title, ceo)
-           VALUES ('DELETE', CURRENT_TIMESTAMP, :OLD.id, :OLD.title, :OLD.ceo);
+           INSERT INTO journal_entertainment_corporations (operation, time_stamp, is_reverted, id, title, ceo)
+           VALUES ('DELETE', CURRENT_TIMESTAMP, 0, :OLD.id, :OLD.title, :OLD.ceo);
 
            COMMIT; -- without commit caused error !
 
@@ -43,20 +43,20 @@ DECLARE
 BEGIN
     CASE
         WHEN inserting THEN
-            INSERT INTO journal_cinematic_universes (operation, time_stamp, id, title, owning_corporation)
-            VALUES ('INSERT', CURRENT_TIMESTAMP, :NEW.id, :NEW.title, :NEW.owning_corporation);
+            INSERT INTO journal_cinematic_universes (operation, time_stamp,is_reverted,  id, title, owning_corporation)
+            VALUES ('INSERT', CURRENT_TIMESTAMP, 0, :NEW.id, :NEW.title, :NEW.owning_corporation);
 
             COMMIT; -- without commit caused error !
 
         WHEN updating THEN
-            INSERT INTO journal_cinematic_universes (operation, time_stamp, id, title, owning_corporation)
-            VALUES ('UPDATE', CURRENT_TIMESTAMP, :OLD.id, :OLD.title, :OLD.owning_corporation);         
+            INSERT INTO journal_cinematic_universes (operation, time_stamp, is_reverted, id, title, owning_corporation)
+            VALUES ('UPDATE', CURRENT_TIMESTAMP, 0, :OLD.id, :OLD.title, :OLD.owning_corporation);         
 
             COMMIT; -- without commit caused error !
 
         WHEN deleting THEN
-           INSERT INTO journal_cinematic_universes (operation, time_stamp, id, title, owning_corporation)
-           VALUES ('DELETE', CURRENT_TIMESTAMP, :OLD.id, :OLD.title, :OLD.owning_corporation);
+           INSERT INTO journal_cinematic_universes (operation, time_stamp, is_reverted, id, title, owning_corporation)
+           VALUES ('DELETE', CURRENT_TIMESTAMP, 0, :OLD.id, :OLD.title, :OLD.owning_corporation);
 
             COMMIT; -- without commit caused error !
 
@@ -72,20 +72,20 @@ DECLARE
 BEGIN
     CASE
         WHEN inserting THEN
-            INSERT INTO journal_movies (operation, time_stamp, id, title, release_date, cinematic_universe)
-            VALUES ('INSERT', CURRENT_TIMESTAMP, :NEW.id, :NEW.title,:NEW.release_date, :NEW.cinematic_universe);
+            INSERT INTO journal_movies (operation, time_stamp, is_reverted, id, title, release_date, cinematic_universe)
+            VALUES ('INSERT', CURRENT_TIMESTAMP, 0, :NEW.id, :NEW.title,:NEW.release_date, :NEW.cinematic_universe);
 
             COMMIT;
-            
+
         WHEN updating THEN
-            INSERT INTO journal_movies (operation, time_stamp, id, title, release_date, cinematic_universe)
-            VALUES ('UPDATE', CURRENT_TIMESTAMP, :OLD.id, :OLD.title,:OLD.release_date, :OLD.cinematic_universe);         
+            INSERT INTO journal_movies (operation, time_stamp, is_reverted, id, title, release_date, cinematic_universe)
+            VALUES ('UPDATE', CURRENT_TIMESTAMP, 0, :OLD.id, :OLD.title,:OLD.release_date, :OLD.cinematic_universe);         
 
             COMMIT;
 
         WHEN deleting THEN
-            INSERT INTO journal_movies (operation, time_stamp, id, title, release_date, cinematic_universe)
-            VALUES ('DELETE', CURRENT_TIMESTAMP, :OLD.id, :OLD.title,:OLD.release_date, :OLD.cinematic_universe);
+            INSERT INTO journal_movies (operation, time_stamp, is_reverted, id, title, release_date, cinematic_universe)
+            VALUES ('DELETE', CURRENT_TIMESTAMP, 0, :OLD.id, :OLD.title,:OLD.release_date, :OLD.cinematic_universe);
 
             COMMIT;
 
