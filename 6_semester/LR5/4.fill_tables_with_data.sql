@@ -22,3 +22,5 @@ INSERT INTO movies VALUES (5, 'Justice League', TO_DATE('2017/11/17', 'yyyy/mm/d
 INSERT INTO movies VALUES (6, 'Spider-Man: Into the Spider-Verse', TO_DATE('2018/12/14', 'yyyy/mm/dd'), 3);
 
 DELETE FROM movies;
+
+
