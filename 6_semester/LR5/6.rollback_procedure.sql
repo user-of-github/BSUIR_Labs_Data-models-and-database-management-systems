@@ -65,7 +65,7 @@ END;
 
 /
 
-CREATE OR REPLACE PROCEDURE rollback_all_tables(time_stamp TIMESTAMP, perfrom_rollback IN BOOLEAN) -- if perfrom_rollback is FALSE then it will just print commands without executing
+CREATE OR REPLACE PROCEDURE rollback_all_tables(time_stamp TIMESTAMP, should_perform_real_rollback IN BOOLEAN) -- if should_perform_real_rollback is FALSE then it will just print commands without executing
 AS
 BEGIN
     EXECUTE IMMEDIATE 'TRUNCATE TABLE rollback_scripts';
@@ -76,15 +76,46 @@ BEGIN
 
     FOR	script_row in (SELECT id_of_operation, script FROM rollback_scripts ORDER BY operation_time DESC) LOOP
         DBMS_OUTPUT.PUT_LINE('[rollback_all_tables]: ' || script_row.script);
-        IF perfrom_rollback = TRUE THEN 
+        IF should_perform_real_rollback = TRUE THEN 
             EXECUTE IMMEDIATE script_row.script;
         END IF;
     END LOOP;
 
-    IF perfrom_rollback = TRUE THEN
+    IF should_perform_real_rollback = TRUE THEN
         DBMS_OUTPUT.PUT_LINE('[rollback_all_tables] Updating journals'' is_reverted status ...');
-        --EXECUTE IMMEDIATE 'UPDATE journal_entertainment_corporations SET is_reverted = 1 WHERE operation_id IN (SELECT id_of_operation FROM rollback_scripts)';
-        --EXECUTE IMMEDIATE 'UPDATE journal_cinematic_universes SET is_reverted = 1 WHERE operation_id IN (SELECT id_of_operation FROM rollback_scripts)';
-        --EXECUTE IMMEDIATE 'UPDATE journal_movies SET is_reverted = 1 WHERE operation_id IN (SELECT id_of_operation FROM rollback_scripts)';
+        EXECUTE IMMEDIATE 'UPDATE journal_entertainment_corporations SET is_reverted = 1 WHERE operation_id IN (SELECT id_of_operation FROM rollback_scripts)';
+        EXECUTE IMMEDIATE 'UPDATE journal_cinematic_universes SET is_reverted = 1 WHERE operation_id IN (SELECT id_of_operation FROM rollback_scripts)';
+        EXECUTE IMMEDIATE 'UPDATE journal_movies SET is_reverted = 1 WHERE operation_id IN (SELECT id_of_operation FROM rollback_scripts)';
     END IF;
 END;
+
+/
+
+-- package specification (headers)
+
+CREATE OR REPLACE PACKAGE recovery_manager AS 
+   PROCEDURE make_rollback(time_stamp IN TIMESTAMP, should_perform_real_rollback IN BOOLEAN); 
+   PROCEDURE make_rollback(interval_to_the_past IN NUMBER, should_perform_real_rollback IN BOOLEAN); 
+END recovery_manager;
+/
+
+-- package body
+CREATE OR REPLACE PACKAGE BODY recovery_manager 
+AS
+    PROCEDURE make_rollback (time_stamp IN TIMESTAMP, should_perform_real_rollback IN BOOLEAN) -- if should_perform_real_rollback is FALSE then it will just print commands without executing
+    AS
+    BEGIN
+        rollback_all_tables(time_stamp, should_perform_real_rollback);
+    END;
+
+    PROCEDURE make_rollback (interval_to_the_past IN NUMBER, should_perform_real_rollback IN BOOLEAN) -- if should_perform_real_rollback is FALSE then it will just print commands without executing
+    AS
+        absolute_time TIMESTAMP := NULL;
+    BEGIN
+        absolute_time := SYSTIMESTAMP();
+        absolute_time := absolute_time - INTERVAL '0.001' SECOND * interval_to_the_past;
+        DBMS_OUTPUT.PUT_LINE('[make_rollback] ABSOLUTE TIME: ' || absolute_time);
+        rollback_all_tables(absolute_time, should_perform_real_rollback);
+    END;
+
+END recovery_manager;

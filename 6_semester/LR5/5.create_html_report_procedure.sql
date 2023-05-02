@@ -34,7 +34,7 @@ BEGIN
     -- entertainment_corporations TABLE
     response := response || '<tr><td colspan="2"><strong> ENTERTAINMENT CORPORATIONS </strong></td> </tr>' || CHR(10);
 
-    OPEN sys_ref_c FOR 'SELECT operation, COUNT(*) FROM journal_entertainment_corporations WHERE is_reverted=0 AND TO_CHAR(time_stamp, ''YYYY-MM-DD HH24:MI:SS.FF3'') >= ' || '''' || TO_CHAR(ts, 'YYYY-MM-DD HH24:MI:SS.FF3') || '''' || ' GROUP BY operation';
+    OPEN sys_ref_c FOR 'SELECT operation, COUNT(*) FROM journal_entertainment_corporations WHERE is_reverted=0 AND TO_CHAR(time_stamp, ''YYYY-MM-DD HH24:MI:SS.FF3'') > ' || '''' || TO_CHAR(ts, 'YYYY-MM-DD HH24:MI:SS.FF3') || '''' || ' GROUP BY operation';
     LOOP
         FETCH sys_ref_c INTO operation_name, operation_count; 
         EXIT WHEN sys_ref_c%NOTFOUND;
@@ -47,7 +47,7 @@ BEGIN
     ---- cinematic_universes TABLE
     response := response || '<tr><td colspan="2"><strong> CINEMATIC UNIVERSES </strong></td> </tr>' || CHR(10);
     
-    OPEN sys_ref_c FOR 'SELECT operation, COUNT(*) FROM journal_cinematic_universes WHERE is_reverted=0 AND TO_CHAR(time_stamp, ''YYYY-MM-DD HH24:MI:SS.FF3'') >= ' || '''' || TO_CHAR(ts, 'YYYY-MM-DD HH24:MI:SS.FF3') || '''' || ' GROUP BY operation';
+    OPEN sys_ref_c FOR 'SELECT operation, COUNT(*) FROM journal_cinematic_universes WHERE is_reverted=0 AND TO_CHAR(time_stamp, ''YYYY-MM-DD HH24:MI:SS.FF3'') > ' || '''' || TO_CHAR(ts, 'YYYY-MM-DD HH24:MI:SS.FF3') || '''' || ' GROUP BY operation';
     LOOP
         FETCH sys_ref_c INTO operation_name, operation_count; 
         EXIT WHEN sys_ref_c%NOTFOUND;
@@ -60,7 +60,7 @@ BEGIN
     -- movies TABLE
     response := response || '<tr><td colspan="2"><strong> MOVIES </strong></td> </tr>' || CHR(10);
 
-    OPEN sys_ref_c FOR 'SELECT operation, COUNT(*) FROM journal_movies WHERE is_reverted=0 AND TO_CHAR(time_stamp, ''YYYY-MM-DD HH24:MI:SS.FF3'') >= ' || '''' || TO_CHAR(ts, 'YYYY-MM-DD HH24:MI:SS.FF3') || '''' || ' GROUP BY operation';
+    OPEN sys_ref_c FOR 'SELECT operation, COUNT(*) FROM journal_movies WHERE is_reverted=0 AND TO_CHAR(time_stamp, ''YYYY-MM-DD HH24:MI:SS.FF3'') > ' || '''' || TO_CHAR(ts, 'YYYY-MM-DD HH24:MI:SS.FF3') || '''' || ' GROUP BY operation';
     LOOP
         FETCH sys_ref_c INTO operation_name, operation_count; 
         EXIT WHEN sys_ref_c%NOTFOUND;
