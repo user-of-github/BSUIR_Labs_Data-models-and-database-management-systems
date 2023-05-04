@@ -74,12 +74,21 @@ BEGIN
     rollback_cinematic_universes_table(time_stamp);
     rollback_movies_table(time_stamp);
 
+    EXECUTE IMMEDIATE 'ALTER TRIGGER journal_entertainment_corporations_trigger DISABLE';
+    EXECUTE IMMEDIATE 'ALTER TRIGGER journal_cinematic_universes_trigger DISABLE';
+    EXECUTE IMMEDIATE 'ALTER TRIGGER journal_movies_trigger DISABLE';
+
     FOR	script_row in (SELECT id_of_operation, script FROM rollback_scripts ORDER BY operation_time DESC) LOOP
         DBMS_OUTPUT.PUT_LINE('[rollback_all_tables]: ' || script_row.script);
         IF should_perform_real_rollback = TRUE THEN 
             EXECUTE IMMEDIATE script_row.script;
         END IF;
     END LOOP;
+
+    EXECUTE IMMEDIATE 'ALTER TRIGGER journal_entertainment_corporations_trigger ENABLE';
+    EXECUTE IMMEDIATE 'ALTER TRIGGER journal_cinematic_universes_trigger ENABLE';
+    EXECUTE IMMEDIATE 'ALTER TRIGGER journal_movies_trigger ENABLE';
+    
 
     IF should_perform_real_rollback = TRUE THEN
         DBMS_OUTPUT.PUT_LINE('[rollback_all_tables] Updating journals'' is_reverted status ...');
